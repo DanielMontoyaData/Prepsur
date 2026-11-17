@@ -1,5 +1,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    prepper_map_pro::run()
+    tauri::Builder::default()
+        .run(tauri::generate_context!())
+        .expect("No fue posible iniciar PREPPER MAP");
 }
