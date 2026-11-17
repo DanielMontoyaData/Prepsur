@@ -1,1 +1,1 @@
-The source tree for PREPPER MAP PRO 2.5 is being added in this directory. The canonical desktop project is in the repository root after the bootstrap commit sequence.
+Este directorio se reserva para fuentes adicionales. Proyecto PREPPER MAP PRO 2.5.
