@@ -1,0 +1,44 @@
+name: Build PREPPER MAP PRO — Windows EXE
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  windows-exe:
+    name: Build Windows installer (.exe)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Install JavaScript dependencies
+        run: npm install
+      - name: Check frontend scripts
+        run: npm run check
+      - name: Generate Windows application icon
+        run: npm run icons:generate
+      - name: Compile NSIS executable installer only
+        run: npm run build:windows
+      - name: Verify that the EXE exists
+        shell: pwsh
+        run: |
+          $files = Get-ChildItem "src-tauri/target/release/bundle/nsis" -Filter "*.exe" -File
+          if (-not $files -or $files.Count -eq 0) { throw "No se generó el instalador .exe" }
+          $files | ForEach-Object { Write-Host "$($_.FullName) — $($_.Length) bytes" }
+      - name: Upload Windows EXE installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: PREPPER-MAP-PRO-2.5-Windows-EXE
+          path: src-tauri/target/release/bundle/nsis/*.exe
+          if-no-files-found: error
+          retention-days: 30
