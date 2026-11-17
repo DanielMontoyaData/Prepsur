@@ -1,0 +1,9 @@
+# Dependencias opcionales para procesamiento de elevación y red de caminos
+numpy>=1.26,<3
+rasterio>=1.4,<2
+pyproj>=3.6,<4
+networkx>=3.3,<4
+shapely>=2.0,<3
+
+pyproj>=3.6,<4
+shapely>=2.0,<3
