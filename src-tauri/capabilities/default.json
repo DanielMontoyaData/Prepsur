@@ -1,0 +1,6 @@
+{
+  "identifier": "default",
+  "description": "Permisos mínimos de ventana principal para PREPPER MAP",
+  "windows": ["main"],
+  "permissions": ["core:default"]
+}
