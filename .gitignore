@@ -16,3 +16,6 @@ src-tauri/gen/
 *.keystore
 *.jks
 .env.local
+.pytest_cache/
+data/sync.sqlite3*
+frontend/vendor/

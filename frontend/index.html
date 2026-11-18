@@ -1,0 +1,456 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#101923"><meta name="description" content="PREPPER MAP: preparación civil y resiliencia territorial del sur del Valle de Aburrá"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="icons/prepper-map-icon.png"><link rel="apple-touch-icon" href="icons/prepper-map-icon.png"><link rel="stylesheet" href="vendor/leaflet/leaflet.css"><title>PREPPER MAP PRO 2.5</title>
+<style>
+:root{--bg:#0d1720;--panel:#14232e;--line:#2a3d4c;--txt:#e8f1f6;--muted:#9db0bd;--green:#36b77b;--red:#e45b5b;--amber:#e4a943;--blue:#459bd4}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:14px system-ui;overscroll-behavior:none;padding-bottom:env(safe-area-inset-bottom)}header{min-height:62px;height:auto;display:flex;align-items:center;justify-content:space-between;padding:calc(8px + env(safe-area-inset-top)) 16px 8px;border-bottom:1px solid var(--line)}.brand{font-weight:850;letter-spacing:.1em}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:.12em}.status{font-size:11px;color:var(--muted)}main{display:grid;grid-template-columns:340px 1fr;height:calc(100dvh - 62px)}aside{overflow:auto;background:var(--panel);padding:14px;border-right:1px solid var(--line)}#map{height:100%;background:#d9e2e5}.box{border:1px solid var(--line);border-radius:10px;padding:11px;margin-bottom:12px}.box h3{margin:0 0 9px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#c0d0da}.layer{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #263743;font-size:12px}.layer input{accent-color:var(--green)}.layer small{display:block;color:var(--muted)}button,input,select{background:#203442;color:var(--txt);border:1px solid #3a5365;border-radius:7px;padding:8px;font:inherit}button{cursor:pointer;min-height:42px;touch-action:manipulation}input,select{min-height:42px}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid #65b7e8;outline-offset:2px}button:hover{background:#2a4658}.actions{display:flex;gap:6px;flex-wrap:wrap}.banner{background:#332d1d;border:1px solid #786237;padding:10px;border-radius:9px;color:#f2dca8;font-size:11px;line-height:1.45;margin-bottom:12px}.legend{display:grid;grid-template-columns:1fr 1fr;gap:7px;font-size:11px}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}.resource{padding:8px 0;border-bottom:1px solid #263743}.resource b{display:block}.resource small{color:var(--muted)}.resource a{color:#9bd1f4;font-size:11px}.provider{display:inline-block;padding:7px 9px;border:1px solid #3a5365;border-radius:7px;color:#b9dcf4;text-decoration:none;font-size:11px;background:#203442}.provider:hover{background:#2a4658}.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#172733;color:#e8f1f6}.leaflet-control-zoom a,.leaflet-control-layers{background:#172733!important;color:#e8f1f6!important;border-color:#405363!important}.foot{font-size:10px;color:#8295a3;line-height:1.45}@media(max-width:760px){header{padding-left:12px;padding-right:12px}.brand{font-size:13px}.brand small{font-size:9px}.status{font-size:10px;max-width:120px;text-align:right}main{grid-template-columns:1fr;grid-template-rows:44dvh 1fr;height:auto;min-height:calc(100dvh - 62px)}#map{grid-row:1;min-height:260px}aside{grid-row:2;border:0;border-top:1px solid var(--line);padding:12px 12px calc(18px + env(safe-area-inset-bottom))}.box{padding:12px}.actions button{flex:1 1 auto}}
+textarea{background:#203442;color:var(--txt);border:1px solid #3a5365;border-radius:7px;padding:8px;font:inherit}.good{color:#65d39b}.warn{color:#efbd63}.bad{color:#ef7777}.au-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.au-grid label{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--muted)}.au-grid input,.au-grid select{width:100%;min-width:0}.au-grid .resource{min-width:0;overflow-wrap:anywhere}@media(max-width:760px){.au-grid{grid-template-columns:1fr 1fr}}</style></head><body><header><div class="brand">PREPPER MAP <small>SUR DEL VALLE DE ABURRÁ · PRO 2.5 · RED PRIVADA DE AMIGOS</small></div><div class="status" id="net">Verificando…</div></header><main><div id="map"></div><aside><div class="banner"><b>Uso responsable:</b> este visor apoya la preparación, no sustituye alertas oficiales ni decisiones de evacuación. Un punto comercial no es refugio; una zona sin amenaza cartografiada no es garantía de seguridad. Las capas se identifican por municipio y fuente.</div>
+<div class="box"><h3>Buscar recurso o lugar</h3><input id="search" placeholder="Nombre o categoría…" style="width:100%"><div class="actions" style="margin-top:8px"><button id="find">Buscar capa</button><button id="fit">Cobertura sur</button><button id="locate">Mi ubicación</button><button id="reload">Recargar</button></div>
+<select id="municipalityFilter" style="width:100%;margin-top:8px"><option value="">Todos los municipios</option><option>Envigado</option><option>Itagüí</option><option>Sabaneta</option><option>La Estrella</option><option>Caldas</option><option>Medellín (sur prioritario)</option></select></div>
+<div class="box"><h3>Capas GIS locales</h3><div id="layers"><small class="status">Cargando catálogo…</small></div><div class="actions" style="margin-top:8px"><button id="export">Exportar capas visibles</button></div></div>
+<div class="box"><h3>Cartografía base sin conexión</h3>
+<p class="foot">Carga un paquete de teselas XYZ preparado desde un archivo MBTiles con licencia compatible. El paquete debe estar dentro de <code>frontend/offline-tiles/</code>. La aplicación detecta el manifiesto y permite alternar entre mapa offline y OpenStreetMap online.</p>
+<div class="actions"><button id="useOfflineBasemap">Usar mapa offline</button><button id="useOnlineBasemap">Usar mapa online</button></div>
+<div class="actions" style="margin-top:8px"><button id="prepareOfflineTiles">Guardar teselas en este dispositivo</button><button id="stopOfflineTiles">Detener descarga</button><button id="checkOfflineTiles">Verificar disponibilidad</button></div>
+<progress id="offlineProgress" max="100" value="0" style="width:100%;margin-top:8px" aria-label="Progreso de cartografía offline"></progress>
+<div id="offlineProgressStatus" class="foot" aria-live="polite">Sin descarga iniciada.</div>
+<div id="basemapStatus" class="foot" style="margin-top:7px">Buscando paquete cartográfico local…</div>
+</div>
+<div class="box"><h3>Biblioteca offline personal</h3>
+<p class="foot">Importa capas GeoJSON propias para conservarlas en este dispositivo. Se guardan en almacenamiento local del navegador y permanecen disponibles sin internet. No se sincronizan ni se envían a servidores.</p>
+<label class="foot" style="display:block">Añadir capa GeoJSON (.geojson / .json)
+<input id="offlineGeoFile" type="file" accept=".geojson,.json,application/geo+json,application/json" style="display:block;width:100%;margin-top:6px"></label>
+<div id="offlineLayerList" class="foot" style="margin-top:8px">Consultando biblioteca local…</div>
+<div class="actions" style="margin-top:8px"><button id="exportOfflineLayers">Exportar biblioteca</button><button id="clearOfflineLayers">Borrar biblioteca</button></div>
+<div id="offlineLayerStatus" class="foot" style="margin-top:7px">Almacenamiento local por dispositivo.</div>
+</div>
+<div class="box"><h3>Fuentes oficiales en vivo</h3><div id="liveLayers" class="status">Consultando catálogo de servicios…</div><p class="foot">Estas capas se consultan directamente en servicios oficiales. Requieren internet; para uso sin conexión debes descargar los GeoJSON con el extractor.</p></div>
+<div class="box"><h3>Senderos y plataformas GPS</h3>
+<p class="foot">Explora rutas externas o importa tus archivos GPS. Los tracks importados se procesan localmente en este navegador.</p>
+<div class="actions"><a class="provider" href="https://www.wikiloc.com/" target="_blank" rel="noopener">Wikiloc ↗</a><a class="provider" href="https://www.komoot.com/" target="_blank" rel="noopener">komoot ↗</a><a class="provider" href="https://mapy.com/" target="_blank" rel="noopener">Mapy.com ↗</a><a class="provider" href="https://www.alltrails.com/" target="_blank" rel="noopener">AllTrails ↗</a><a class="provider" href="https://www.openstreetmap.org/" target="_blank" rel="noopener">OpenStreetMap ↗</a></div>
+<input id="routeSearch" placeholder="Buscar senderos cerca de Envigado…" style="width:100%;margin-top:8px">
+<div class="actions" style="margin-top:8px"><button id="searchWikiloc">Buscar en Wikiloc</button><button id="searchKomoot">Buscar en komoot</button><button id="searchAllTrails">Buscar en AllTrails</button></div>
+<label class="foot" style="display:block;margin-top:10px">Importar GPX / KML / GeoJSON
+<input id="routeFile" type="file" accept=".gpx,.kml,.geojson,.json" style="display:block;width:100%;margin-top:6px"></label>
+<div class="actions" style="margin-top:8px"><button id="clearRoutes">Limpiar rutas importadas</button><button id="exportRoutes">Exportar GeoJSON</button></div>
+<div id="routeStatus" class="status" style="margin-top:8px">Sin tracks importados.</div>
+<div id="osmTrailStatus" class="foot" style="margin-top:6px">Senderos OSM: ejecuta el descargador para cargar el conjunto regional.</div>
+</div>\n
+<div class="box"><h3>Auditoría de datos territoriales</h3>
+<p class="foot">Muestra fecha, procedencia, integridad y cobertura de las capas descargadas. No equivale a una certificación de seguridad.</p>
+<div id="qualitySummary" class="foot">Consultando informe de calidad…</div>
+<div class="actions"><button id="refreshQuality">Actualizar informe local</button><button id="exportQuality">Exportar auditoría</button></div>
+</div>
+<div class="box"><h3>Centro de evaluación territorial</h3>
+<div class="legend" style="margin-bottom:8px"><span>Capas locales <b id="statLayers">0</b></span><span>Elementos <b id="statFeatures">0</b></span><span>Rutas cargadas <b id="statRoutes">0</b></span><span>Observaciones <b id="statReports">0</b></span></div>
+<div id="dataHealth" class="foot">Calculando estado de datos…</div>
+<div class="actions" style="margin-top:9px"><button id="auditRoute">Evaluar ruta importada</button><button id="exportAudit">Exportar evaluación</button></div>
+<div id="auditResult" class="foot" style="margin-top:8px">Importa una ruta y activa las capas locales de amenaza para evaluar posibles cruces.</div></div>
+
+<div class="box"><h3>Terreno y altimetría</h3>
+<p class="foot">Carga la capa de pendientes derivada de un DEM y el perfil JSON generado para una ruta.</p>
+<label class="foot" style="display:block">Capa de pendientes (GeoJSON)
+<input id="slopeFile" type="file" accept=".geojson,.json" style="display:block;width:100%;margin-top:5px"></label>
+<label class="foot" style="display:block;margin-top:8px">Perfil de elevación de ruta (JSON)
+<input id="profileFile" type="file" accept=".json" style="display:block;width:100%;margin-top:5px"></label>
+<div id="terrainSummary" class="foot" style="margin-top:8px">Sin perfil altimétrico cargado.</div>
+<canvas id="elevationChart" width="600" height="150" style="display:none;width:100%;height:150px;background:#0d1720;border-radius:7px;margin-top:8px"></canvas>
+</div>
+<div class="box"><h3>Verificación de campo</h3><p class="foot">Las observaciones se guardan solo en este navegador; no se transmiten a un servidor.</p>
+<select id="obsType" style="width:100%;margin-bottom:6px"><option value="ruta">Estado de ruta o sendero</option><option value="agua">Punto de agua / abastecimiento</option><option value="infraestructura">Infraestructura / puente</option><option value="amenaza">Condición de amenaza observada</option><option value="servicio">Servicio comunitario</option><option value="otro">Otro</option></select>
+<input id="obsPlace" placeholder="Lugar o referencia (sin datos privados)" style="width:100%;margin-bottom:6px">
+<select id="obsStatus" style="width:100%;margin-bottom:6px"><option value="observado">Observado, pendiente de validar</option><option value="verificado">Verificado en campo por el equipo</option><option value="no_disponible">No disponible / cerrado</option><option value="riesgo">Condición de riesgo observada</option></select>
+<textarea id="obsNote" rows="3" placeholder="Descripción, fecha/hora aproximada y evidencia disponible…" style="width:100%;resize:vertical;margin-bottom:7px"></textarea>
+<div class="actions"><button id="saveObservation">Guardar observación</button><button id="exportObservations">Exportar registros</button></div><div id="obsStatus" class="foot" style="margin-top:8px">Sin observaciones locales.</div></div>
+
+<div class="box"><h3>Información, privacidad y mantenimiento</h3>
+<p class="foot">Versión 1.2.0 · Aplicación en desarrollo. Los reportes de campo permanecen en este dispositivo hasta exportarlos o eliminarlos. La ubicación solo se solicita cuando activas “Mi ubicación”.</p>
+<div class="actions"><a class="provider" href="privacy.html" target="_blank" rel="noopener">Política de privacidad</a><button id="clearObservations" type="button">Borrar observaciones locales</button></div>
+</div>
+<div class="box" id="incidentCommandBox"><h3>Puesto de mando · registro de incidentes</h3>
+<p class="foot">Bitácora local para ejercicios, preparación y coordinación interna. No envía despachos, no sustituye el sistema oficial de emergencias y no debe contener datos personales sensibles.</p>
+<label class="foot">Nombre del incidente<input id="icTitle" maxlength="120" placeholder="Ej. Creciente súbita — ejercicio" style="display:block;width:100%;margin-top:4px"></label>
+<div class="actions" style="margin-top:7px">
+<select id="icMunicipality" aria-label="Municipio del incidente"><option>Envigado</option><option>Itagüí</option><option>Sabaneta</option><option>La Estrella</option><option>Caldas</option><option>Medellín</option><option>Regional</option></select>
+<select id="icPriority" aria-label="Prioridad"><option value="P1">P1 · Crítica</option><option value="P2" selected>P2 · Alta</option><option value="P3">P3 · Moderada</option><option value="P4">P4 · Baja</option></select>
+<select id="icStatus" aria-label="Estado"><option value="activo">Activo</option><option value="monitoreo">En monitoreo</option><option value="controlado">Controlado</option><option value="cerrado">Cerrado</option></select>
+</div>
+<label class="foot">Lugar o referencia general<input id="icLocation" maxlength="160" placeholder="Barrio, sector o referencia; evita direcciones privadas" style="display:block;width:100%;margin-top:4px"></label>
+<label class="foot">Responsable / coordinador<input id="icLead" maxlength="100" placeholder="Cargo o equipo responsable" style="display:block;width:100%;margin-top:4px"></label>
+<div class="actions" style="margin-top:7px"><label class="foot">Latitud<input id="icLat" type="number" step="any" min="-90" max="90" placeholder="6.17"></label><label class="foot">Longitud<input id="icLon" type="number" step="any" min="-180" max="180" placeholder="-75.58"></label></div>
+<label class="foot">Situación y objetivos<textarea id="icSituation" rows="3" maxlength="2000" placeholder="Hechos confirmados, necesidades y objetivos inmediatos…" style="display:block;width:100%;margin-top:4px"></textarea></label>
+<div class="actions" style="margin-top:8px"><button id="icCreate">Crear / actualizar incidente</button><button id="icNew">Nuevo</button><button id="icShowMap">Mostrar en mapa</button></div>
+<hr style="border:0;border-top:1px solid var(--line);margin:10px 0">
+<label class="foot">Seleccionar incidente<input id="icSelect" list="icOptions" placeholder="ID o nombre del incidente" style="display:block;width:100%;margin-top:4px"><datalist id="icOptions"></datalist></label>
+<label class="foot">Nueva anotación de bitácora<textarea id="icLogText" rows="2" maxlength="1200" placeholder="Hora, novedad, decisión, recurso solicitado o tarea completada…" style="display:block;width:100%;margin-top:4px"></textarea></label>
+<div class="actions" style="margin-top:7px"><button id="icAddLog">Añadir a bitácora</button><button id="icExport">Exportar respaldo</button><button id="icImport">Importar respaldo</button><input id="icImportFile" type="file" accept="application/json,.json" hidden></div>
+<div class="foot" style="margin-top:7px">Mapa: P1 rojo · P2 ámbar · P3 azul · P4 verde. Los incidentes sin coordenadas no aparecen.</div><div id="icSummary" class="foot" style="margin-top:9px" aria-live="polite">No hay incidentes registrados en este dispositivo.</div>
+<div id="icTimeline" class="foot" style="margin-top:8px"></div>
+<hr style="border:0;border-top:1px solid var(--line);margin:10px 0">
+<b class="foot">Comunicaciones asociadas al incidente</b>
+<label class="foot">Red / canal autorizado<input id="icNet" maxlength="80" placeholder="Red institucional / canal asignado" style="display:block;width:100%;margin-top:4px"></label>
+<div class="actions" style="margin-top:6px"><input id="icFrom" maxlength="60" placeholder="Indicativo origen"><input id="icTo" maxlength="60" placeholder="Destino / grupo"></div>
+<label class="foot">Mensaje o novedad<textarea id="icMessage" rows="2" maxlength="1000" placeholder="Contenido operativo no sensible…" style="display:block;width:100%;margin-top:4px"></textarea></label>
+<div class="actions" style="margin-top:6px"><select id="icAck"><option value="pendiente">Confirmación pendiente</option><option value="confirmado">Confirmado</option><option value="no_confirmado">No confirmado</option></select><button id="icAddComms">Registrar comunicación</button></div>
+<div id="icCommsList" class="foot" style="margin-top:7px"></div>
+<hr style="border:0;border-top:1px solid var(--line);margin:10px 0">
+<b class="foot">Asignación y seguimiento de recursos</b>
+<p class="foot">Asocia recursos del inventario local a un incidente. Solo aparecen recursos marcados como verificados. La asignación no confirma despacho físico.</p>
+<label class="foot">Recurso verificado<select id="icResourceSelect" style="display:block;width:100%;margin-top:4px"><option value="">Cargando recursos…</option></select></label>
+<div class="actions" style="margin-top:6px"><select id="icAssignmentStatus" aria-label="Estado de asignación"><option value="solicitado">Solicitado</option><option value="asignado">Asignado</option><option value="en_camino">En camino</option><option value="en_sitio">En sitio</option><option value="liberado">Liberado</option><option value="cancelado">Cancelado</option></select><input id="icAssignmentQty" maxlength="60" placeholder="Cantidad / capacidad"></div>
+<label class="foot">Observación de asignación<textarea id="icAssignmentNote" rows="2" maxlength="500" placeholder="Necesidad atendida, limitación, responsable funcional…" style="display:block;width:100%;margin-top:4px"></textarea></label>
+<div class="actions" style="margin-top:7px"><button id="icAssignResource">Registrar asignación</button><button id="icCopySitrep">Copiar SITREP</button></div>
+<div id="icAssignments" class="foot" style="margin-top:8px" aria-live="polite">Sin recursos asignados.</div>
+
+<div class="actions" style="margin-top:8px"><button id="icDelete">Eliminar incidente seleccionado</button><button id="icClear">Borrar todos los incidentes</button></div>
+</div>
+
+<section class="box" id="autonomyBox" style="margin-top:14px">
+ <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div><h3>Autonomía y abastecimiento</h3><p class="foot">Calcula reservas, duración estimada y déficit por escenario.</p></div><span class="foot">PRO 1.7</span></div>
+ <div class="au-grid">
+  <label>Tipo de escenario<select id="auScenario"><option value="hogar">Vivienda / hogar</option><option value="refugio">Refugio / albergue</option><option value="comunidad">Comunidad / sector</option><option value="operacion">Puesto de operaciones</option></select></label>
+  <label>Personas atendidas<input id="auPeople" type="number" min="1" max="100000" value="2"></label>
+  <label>Días objetivo<input id="auDays" type="number" min="1" max="365" value="7"></label>
+  <label>Agua disponible (litros)<input id="auWater" type="number" min="0" step="0.1" value="0"></label>
+  <label>Alimentos disponibles (kg)<input id="auFood" type="number" min="0" step="0.1" value="0"></label>
+  <label>Energía disponible (kWh)<input id="auEnergy" type="number" min="0" step="0.1" value="0"></label>
+  <label>Agua por persona/día (L)<input id="auWaterRate" type="number" min="0" step="0.1" value="4"></label>
+  <label>Alimentos por persona/día (kg)<input id="auFoodRate" type="number" min="0" step="0.01" value="0.6"></label>
+  <label>Energía por persona/día (kWh)<input id="auEnergyRate" type="number" min="0" step="0.01" value="0.5"></label>
+  <label>Agua adicional/día (L)<input id="auWaterExtra" type="number" min="0" step="0.1" value="0"></label>
+  <label>Alimentos adicionales/día (kg)<input id="auFoodExtra" type="number" min="0" step="0.1" value="0"></label>
+  <label>Energía adicional/día (kWh)<input id="auEnergyExtra" type="number" min="0" step="0.1" value="0"></label>
+ </div>
+ <div class="actions" style="margin-top:10px"><button id="auCalculate">Calcular autonomía</button><button id="auSave">Guardar escenario</button><button id="auExport">Exportar informe JSON</button><button id="auCSV">Exportar tabla CSV</button></div>
+ <div id="auResults" class="au-grid" aria-live="polite" style="margin-top:12px"><p class="muted">Introduce las reservas reales y calcula el escenario.</p></div>
+ <p class="muted" style="margin-top:8px">Estimaciones de planificación, no certificación sanitaria ni garantía de potabilidad, inocuidad o disponibilidad. Ajusta consumos a clima, edad, salud, actividad, cocción, higiene y orientación de autoridades.</p>
+ <div id="auSaved" class="muted" style="margin-top:8px"></div>
+</section>
+
+
+
+
+<section class="box" id="scenarioLab">
+ <h2>Escenarios y dependencias de servicios · PRO 2.1</h2>
+ <p class="foot">Laboratorio de escenarios hipotéticos. Registra nodos y dependencias con fuentes propias; no contiene infraestructura real precargada ni predice fallas. Los resultados son análisis de sensibilidad bajo los supuestos ingresados.</p>
+ <details open>
+  <summary><b>1. Inventario de servicios e infraestructura</b></summary>
+  <div class="au-grid" style="margin-top:10px">
+   <label>Nombre del servicio / activo<input id="scNodeName" maxlength="100" placeholder="Ej. Sistema de bombeo sector norte"></label>
+   <label>Municipio<select id="scNodeMunicipality"><option>Envigado</option><option>Itagüí</option><option>Sabaneta</option><option>La Estrella</option><option>Caldas</option><option>Medellín</option></select></label>
+   <label>Sector<select id="scNodeSector"><option value="agua">Agua</option><option value="energia">Energía</option><option value="comunicaciones">Comunicaciones</option><option value="movilidad">Movilidad</option><option value="salud">Salud</option><option value="alimentos">Alimentos</option><option value="saneamiento">Saneamiento</option><option value="combustible">Combustible</option><option value="otro">Otro</option></select></label>
+   <label>Criticidad<select id="scNodeCriticality"><option value="critica">Crítica</option><option value="alta">Alta</option><option value="media">Media</option><option value="baja">Baja</option></select></label>
+   <label>Capacidad de referencia<input id="scNodeCapacity" type="number" min="0" step="any" placeholder="Opcional"></label>
+   <label>Unidad<input id="scNodeUnit" maxlength="24" placeholder="kW, L/s, Mbps, vehículos/h"></label>
+   <label>Dependencias (IDs de nodos proveedores, separados por coma)<input id="scNodeDeps" maxlength="500" placeholder="Se muestran en el inventario"></label>
+   <label>Fuente / referencia verificable<input id="scNodeSource" maxlength="220" placeholder="Documento, operador, levantamiento"></label>
+  </div>
+  <div class="actions" style="margin-top:8px"><button id="scNodeAdd">Agregar nodo</button><button id="scExport">Exportar laboratorio JSON</button><button id="scCSV">Exportar resultados CSV</button></div>
+  <div id="scNodeList" style="margin-top:10px"></div>
+ </details>
+ <details open style="margin-top:12px">
+  <summary><b>2. Construcción y ejecución del escenario</b></summary>
+  <div class="au-grid" style="margin-top:10px">
+   <label>Nombre del escenario<input id="scName" maxlength="100" placeholder="Ej. Interrupción eléctrica del sector"></label>
+   <label>Municipio de análisis<select id="scMunicipality"><option value="todos">Todos</option><option>Envigado</option><option>Itagüí</option><option>Sabaneta</option><option>La Estrella</option><option>Caldas</option><option>Medellín</option></select></label>
+  </div>
+  <p class="foot">Una afectación por línea: <code>ID_DEL_NODO=porcentaje_disponible</code>. Ejemplo: <code>N-ABC123=0</code> significa disponibilidad directa del 0 %. Los demás nodos parten de 100 % y pueden verse afectados por dependencias.</p>
+  <label style="display:block">Afectaciones directas<textarea id="scOverrides" rows="4" maxlength="5000" style="width:100%" placeholder="N-ABC123=0&#10;N-DEF456=40"></textarea></label>
+  <div class="actions" style="margin-top:8px"><button id="scRun">Calcular escenario</button><button id="scClear">Limpiar afectaciones</button></div>
+  <div id="scResult" style="margin-top:12px"></div>
+ </details>
+ <div id="scWarnings" class="foot" style="margin-top:8px" aria-live="polite"></div>
+</section>
+
+<section class="box" id="situationBoard">
+ <h2>Inteligencia operativa territorial · PRO 2.0</h2>
+ <p class="foot">Consolidación local de incidentes, recursos y apoyos intermunicipales. Lectura de solo lectura: no modifica registros de origen ni confirma disponibilidad institucional.</p>
+ <div class="au-grid" style="margin:10px 0">
+  <label>Municipio
+   <select id="sitMunicipality"><option value="todos">Todos los municipios</option><option>Envigado</option><option>Itagüí</option><option>Sabaneta</option><option>La Estrella</option><option>Caldas</option><option>Medellín</option></select>
+  </label>
+  <label>Antigüedad máxima del dato (días)
+   <input id="sitFreshDays" type="number" min="1" max="365" value="7">
+  </label>
+  <div class="actions"><button id="sitRefresh">Actualizar situación</button><button id="sitExport">Exportar SITREP JSON</button><button id="sitCopy">Copiar SITREP</button></div>
+ </div>
+ <div id="sitKpis" class="au-grid" aria-live="polite"></div>
+ <div id="sitAlerts" style="margin-top:10px"></div>
+ <div id="sitNeeds" style="margin-top:10px"></div>
+ <div id="sitReport" style="margin-top:10px"></div>
+</section>
+
+<div class="box" id="mutualAidBox">
+ <h3>Coordinación intermunicipal y capacidades · PRO 1.9</h3>
+ <p class="foot">Registro local de solicitudes y compromisos de apoyo entre municipios. No despacha recursos, no notifica entidades y no representa una coordinación oficial. Usa roles institucionales, no datos personales.</p>
+ <div class="au-grid">
+  <label>Municipio solicitante<select id="maRequester"><option>Envigado</option><option>Itagüí</option><option>Sabaneta</option><option>La Estrella</option><option>Caldas</option><option>Medellín</option></select></label>
+  <label>Municipio oferente<select id="maProvider"><option>Itagüí</option><option>Envigado</option><option>Sabaneta</option><option>La Estrella</option><option>Caldas</option><option>Medellín</option></select></label>
+  <label>Categoría<select id="maCategory"><option value="agua">Agua</option><option value="salud">Salud</option><option value="alimentos">Alimentos</option><option value="energia">Energía</option><option value="comunicaciones">Comunicaciones</option><option value="transporte">Transporte</option><option value="rescate">Rescate / apoyo</option><option value="alojamiento">Alojamiento por verificar</option><option value="abastecimiento">Abastecimiento</option><option value="otro">Otro</option></select></label>
+  <label>Identificador del recurso ofertado<input id="maResourceId" maxlength="80" placeholder="Código interno / inventario"></label>
+  <label>Descripción del apoyo<input id="maDescription" maxlength="160" placeholder="Ej. vehículo cisterna, equipo de bombeo"></label>
+  <label>Cantidad solicitada<input id="maRequested" type="number" min="0.001" step="any" value="1"></label>
+  <label>Unidad<input id="maUnit" maxlength="30" placeholder="L, kg, unidades, personas…" value="unidades"></label>
+  <label>Capacidad total declarada del recurso<input id="maCapacity" type="number" min="0.001" step="any" placeholder="Opcional, misma unidad"></label>
+  <label>Rol responsable solicitante<input id="maRequesterRole" maxlength="80" placeholder="Coordinación municipal"></label>
+  <label>Rol responsable oferente<input id="maProviderRole" maxlength="80" placeholder="Enlace de logística"></label>
+  <label>Fecha/hora requerida<input id="maNeededAt" type="datetime-local"></label>
+  <label>Referencia de fuente / autorización<input id="maSource" maxlength="200" placeholder="Acta, radicado o referencia verificable"></label>
+ </div>
+ <label class="foot" style="display:block;margin-top:8px">Observaciones / condiciones<textarea id="maNotes" rows="2" maxlength="800" style="display:block;width:100%;margin-top:4px"></textarea></label>
+ <div class="actions" style="margin-top:8px"><button id="maCreate">Registrar solicitud</button><button id="maExport">Exportar JSON</button><button id="maCSV">Exportar CSV</button><button id="maImport">Importar respaldo</button><input id="maFile" type="file" accept=".json,application/json" hidden></div>
+ <div id="maDashboard" class="au-grid" style="margin-top:10px" aria-live="polite"></div>
+ <div id="maWarnings" class="foot" style="margin-top:8px"></div>
+ <div id="maList" style="margin-top:8px"></div>
+</div>
+
+<div class="box" id="zoneCoverageBox">
+ <h3>Cobertura y brechas territoriales · PRO 1.8</h3>
+ <p class="foot">Carga un informe JSON generado con datos territoriales y recursos verificados. La vista no inventa ni completa registros ausentes.</p>
+ <div class="actions">
+  <input id="zcReportFile" type="file" accept=".json,application/json" aria-label="Seleccionar informe de cobertura">
+  <button id="zcClear">Limpiar informe</button>
+ </div>
+ <div id="zcSummary" class="foot" style="margin-top:8px" aria-live="polite">No hay informe cargado.</div>
+ <div id="zcTable" style="overflow:auto;margin-top:8px"></div>
+ <div id="zcWarnings" class="foot" style="margin-top:8px"></div>
+</div>
+<div class="box" id="resourceRegistryBox"><h3>Inventario territorial de recursos</h3>
+<p class="foot">Registro local de capacidades, no directorio oficial. Todo recurso requiere fuente, fecha y estado de verificación. No almacenar datos personales ni inventarios privados sensibles.</p>
+<label class="foot">Nombre del recurso<input id="rrName" maxlength="120" placeholder="Ej. Centro de salud / punto de agua" style="display:block;width:100%;margin-top:4px"></label>
+<div class="actions" style="margin-top:6px"><select id="rrCategory"><option value="salud">Salud</option><option value="agua">Agua</option><option value="alimentos">Alimentos</option><option value="energia">Energía</option><option value="comunicaciones">Comunicaciones</option><option value="alojamiento">Alojamiento por verificar</option><option value="transporte">Transporte</option><option value="rescate">Rescate / apoyo</option><option value="abastecimiento">Abastecimiento</option><option value="otro">Otro</option></select>
+<select id="rrMunicipality"><option>Envigado</option><option>Itagüí</option><option>Sabaneta</option><option>La Estrella</option><option>Caldas</option><option>Medellín</option><option>Regional</option></select></div>
+<div class="actions" style="margin-top:6px"><select id="rrStatus"><option value="por_verificar">Por verificar</option><option value="verificado">Verificado</option><option value="inactivo">Inactivo</option></select><input id="rrCapacity" maxlength="80" placeholder="Capacidad / disponibilidad"></div>
+<label class="foot">Ubicación general<input id="rrLocation" maxlength="160" placeholder="Barrio / sector" style="display:block;width:100%;margin-top:4px"></label>
+<label class="foot">Fuente verificable<input id="rrSource" maxlength="250" placeholder="Entidad, URL o documento" style="display:block;width:100%;margin-top:4px"></label>
+<div class="actions" style="margin-top:6px"><label class="foot">Latitud<input id="rrLat" type="number" step="any" min="-90" max="90" placeholder="6.17"></label><label class="foot">Longitud<input id="rrLon" type="number" step="any" min="-180" max="180" placeholder="-75.58"></label></div>
+<label class="foot">Observaciones<textarea id="rrNotes" rows="2" maxlength="800" placeholder="Condiciones, horarios publicados, limitaciones…" style="display:block;width:100%;margin-top:4px"></textarea></label>
+<div class="actions" style="margin-top:7px"><button id="rrAdd">Registrar recurso</button><button id="rrExport">Exportar inventario</button><button id="rrImport">Importar inventario</button><input id="rrFile" type="file" accept="application/json,.json" hidden></div>
+<div class="foot" style="margin-top:7px">Los recursos verificados con coordenadas aparecen en el mapa en color celeste. La verificación es responsabilidad del operador y no equivale a certificación oficial.</div><div id="rrSummary" class="foot" style="margin-top:8px" aria-live="polite"></div><div id="rrList" class="foot" style="margin-top:7px"></div>
+</div>
+<div class="box"><h3>Recursos públicos</h3><div id="resources" class="status">Sin registros verificados importados. No se generan ubicaciones ficticias.</div></div>
+<div class="box"><h3>Leyenda</h3><div class="legend"><span><i class="dot" style="background:#d94c4c"></i>Inundación</span><span><i class="dot" style="background:#e3a43c"></i>Movimiento en masa</span><span><i class="dot" style="background:#398dd0"></i>Salud/servicios</span><span><i class="dot" style="background:#35a975"></i>Refugio confirmado</span><span><i class="dot" style="background:#b18ad7"></i>Comunicaciones</span><span><i class="dot" style="background:#d5b64c"></i>Energía</span></div></div>
+<div class="box"><h3>Estado de datos</h3><div id="dataState" class="status">Sin manifiesto de extracción.</div><p class="foot">Las capas locales se consultan desde `data/`. Para generar datos, ejecutar el extractor en backend/scripts. Fuentes y licencias en la documentación.</p></div>
+<div class="foot">Mapa base © OpenStreetMap contributors. Los datos de amenaza conservan la autoridad de origen. No utilizar para navegación de emergencia sin verificación de campo.</div><section class="box" id="syncPanel"><h3>Red privada híbrida · PRO 2.3</h3>
+<p class="foot">Modo híbrido: la aplicación conserva una cola local cuando no hay internet. Al recuperar conexión puede enviar eventos automáticamente si activas esa opción. La descarga de eventos recibidos sigue siendo manual y requiere revisión antes de incorporarlos. El token solo vive en memoria; el almacenamiento local del navegador no se considera cifrado.</p>
+<div class="au-grid"><label>API HTTPS<input id="syncUrl" placeholder="https://api.organizacion.gov.co"></label><label>Tenant autorizado<input id="syncTenant" placeholder="organizacion-1"></label><label style="grid-column:1/-1">Token de sesión<input id="syncToken" type="password" autocomplete="off" placeholder="Token entregado por administrador"></label></div>
+<label style="display:flex;gap:8px;align-items:center;margin-top:8px"><input id="syncAuto" type="checkbox" style="width:auto"> Enviar automáticamente la cola al recuperar conexión (requiere sesión configurada)</label><div id="syncNetwork" class="foot" aria-live="polite">Estado de conexión pendiente.</div><div class="actions" style="margin-top:8px"><button id="syncConnect">Configurar sesión</button><button id="syncPush">Enviar ahora</button><button id="syncPull">Descargar para revisión</button><button id="syncClear">Cerrar sesión</button></div><div id="syncStatus" class="foot" aria-live="polite">Sesión no configurada.</div></section>
+
+<section class="box" id="privateNetworkPanel">
+<h3>Red privada de amigos · perfiles, invitaciones y coordinación</h3>
+<p class="foot">Crea invitaciones para tu grupo, registra a cada integrante y comparte mensajes y observaciones. La cuenta es privada por grupo. No uses este espacio para contraseñas, domicilios ni datos sensibles.</p>
+<div class="au-grid">
+<label>Dirección de la API HTTPS<input id="netApiUrl" placeholder="https://tu-servidor-privado.example"></label>
+<label>Identificador del grupo<input id="netTenant" placeholder="grupo-amigos"></label>
+<label>Usuario<input id="netUsername" autocomplete="username" placeholder="usuario"></label>
+<label>Nombre visible<input id="netDisplayName" placeholder="Cómo te verán"></label>
+<label>Contraseña (mínimo 10 caracteres)<input id="netPassword" type="password" autocomplete="new-password"></label>
+<label>Código de invitación<input id="netInviteCode" placeholder="Código recibido"></label>
+</div>
+<div class="actions" style="margin-top:8px">
+<button id="netJoin">Unirme con invitación</button><button id="netLogin">Iniciar sesión</button><button id="netLogout">Cerrar sesión</button>
+</div>
+<div id="netProfile" class="foot" aria-live="polite">No hay una sesión de red privada iniciada en este dispositivo.</div><div class="box"><h3>Integrantes del grupo</h3><div id="netMembers" class="foot">Inicia sesión para consultar integrantes.</div><button id="netRefreshMembers" style="margin-top:8px">Actualizar integrantes</button></div>
+<div class="box" style="margin-top:10px">
+<h3>Invitar a un amigo (administrador)</h3>
+<label class="foot">Token administrador<input id="netAdminToken" type="password" autocomplete="off" placeholder="Token de administrador"></label>
+<div class="actions" style="margin-top:8px"><button id="netCreateInvite">Generar invitación de un uso</button></div>
+<div id="netInviteResult" class="foot" aria-live="polite"></div>
+</div>
+<div class="box">
+<h3>Mensajes del grupo</h3>
+<div id="netMessages" class="foot" style="max-height:220px;overflow:auto">Inicia sesión para consultar mensajes.</div>
+<textarea id="netMessageText" rows="2" style="width:100%;margin-top:8px" placeholder="Mensaje para el grupo…"></textarea>
+<div class="actions" style="margin-top:8px"><button id="netSendMessage">Enviar mensaje</button><button id="netRefreshMessages">Actualizar</button></div>
+</div>
+<div class="box">
+<h3>Observaciones compartidas</h3>
+<div class="au-grid">
+<label>Título<input id="netObsTitle" placeholder="Ej. Árbol caído en vía"></label>
+<label>Categoría<select id="netObsCategory"><option value="general">General</option><option value="weather">Clima</option><option value="route">Ruta</option><option value="resource">Recurso</option><option value="hazard">Riesgo observado</option><option value="meeting">Punto de encuentro</option></select></label>
+<label style="grid-column:1/-1">Descripción<textarea id="netObsBody" rows="2" placeholder="Describe lo observado y cuándo…"></textarea></label>
+<label>Latitud opcional<input id="netObsLat" inputmode="decimal" placeholder="6.17"></label>
+<label>Longitud opcional<input id="netObsLon" inputmode="decimal" placeholder="-75.58"></label>
+</div>
+<div class="actions" style="margin-top:8px"><button id="netShareObservation">Compartir observación</button><button id="netRefreshObservations">Actualizar observaciones</button></div>
+<div id="netObservations" class="foot" aria-live="polite">Las observaciones del grupo aparecerán aquí.</div>
+</div>
+<div class="foot">Las observaciones con coordenadas son reportes de usuarios, no verificaciones oficiales. Las sesiones no se guardan permanentemente; al cerrar o recargar la app debes iniciar sesión otra vez. Los mensajes pendientes sin conexión se guardan localmente en este navegador y se envían al reconectar.</div>
+</section>
+</aside></main>
+<script src="vendor/leaflet/leaflet.js"></script><script src="vendor/esri-leaflet/esri-leaflet.js"></script><script>
+const map=L.map('map').setView([6.14,-75.60],12);window.PrepperMap=map;window.addEventListener('resize',()=>map.invalidateSize({pan:false}));window.addEventListener('orientationchange',()=>setTimeout(()=>map.invalidateSize({pan:false}),250));
+const osm=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'});
+let offlineBase=null,offlineBaseManifest=null,activeBase=null;
+function setBase(layer){if(activeBase&&map.hasLayer(activeBase))map.removeLayer(activeBase);activeBase=layer;if(layer)layer.addTo(map);}
+async function initOfflineBasemap(){const host=document.getElementById('basemapStatus');try{const r=await fetch('offline-tiles/manifest.json');if(!r.ok)throw Error('No hay manifiesto');offlineBaseManifest=await r.json();if(!offlineBaseManifest.attribution||!offlineBaseManifest.license||!offlineBaseManifest.provider)throw Error('Manifiesto incompleto: faltan proveedor, licencia o atribución.');offlineBase=L.tileLayer(`offline-tiles/{z}/{x}/{y}.${offlineBaseManifest.format||'png'}`,{minZoom:Number(offlineBaseManifest.minzoom||0),maxZoom:Number(offlineBaseManifest.maxzoom||18),attribution:offlineBaseManifest.attribution,tms:false});host.textContent=`Paquete disponible: ${offlineBaseManifest.name||'Mapa offline'} · ${offlineBaseManifest.tile_count||'—'} teselas · ${offlineBaseManifest.license}. Verifica fecha y cobertura.`;setBase(offlineBase);}catch(e){host.textContent='No hay paquete cartográfico offline instalado. Se usa OpenStreetMap con conexión.';setBase(osm);}}
+document.getElementById('useOfflineBasemap').onclick=()=>{if(!offlineBase){alert('No hay un paquete offline válido. Prepara e instala un MBTiles.');return;}setBase(offlineBase);document.getElementById('basemapStatus').textContent=`Mapa offline activo: ${offlineBaseManifest.name||'Mapa local'} · instantánea ${offlineBaseManifest.generated_at||'sin fecha'}.`;};
+document.getElementById('useOnlineBasemap').onclick=()=>{setBase(osm);document.getElementById('basemapStatus').textContent='Mapa online activo. Requiere internet.';};
+initOfflineBasemap();window.PREPPER_MAP_MAP=map;window.PREPPER_MAP_INCIDENT_LAYER=L.layerGroup().addTo(map);window.PREPPER_MAP_RESOURCE_LAYER=L.layerGroup().addTo(map);const overlays={},all=[];const colors={flood_risk:'#d94c4c',flood_hazard:'#d94c4c',landslide_risk:'#e3a43c',landslide_hazard:'#e3a43c',flash_flood_hazard:'#b74c9a',facilities:'#398dd0',protected_land:'#648c78',meeting_points:'#35a975',water_sensors:'#2d9bc2',seismic_susceptibility:'#9c7bc3',wildfire_hazard:'#d36b35',technological_hazard:'#b75b86'};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function loadLocal(){const box=document.getElementById('layers');box.innerHTML='';let manifest={items:[]};try{manifest=await (await fetch('data/manifest.json')).json()}catch{};let count=0;for(const item of manifest.items||[]){if(item.status!=='downloaded'||!item.frontend_file)continue;try{const gj=await (await fetch(item.frontend_file)).json();const theme=item.theme||'other',color=colors[theme]||'#7b9aa8';const layer=L.geoJSON(gj,{style:()=>({color,weight:1.2,fillColor:color,fillOpacity:.22}),pointToLayer:(f,ll)=>L.circleMarker(ll,{radius:5,color,fillColor:color,fillOpacity:.9}),onEachFeature:(f,l)=>{const p=f.properties||{};const props=Object.entries(p).filter(([k,v])=>v!==null&&typeof v!=='object').slice(0,12).map(([k,v])=>`<div><b>${esc(k)}</b>: ${esc(v)}</div>`).join('');l.bindPopup(`<b>${esc(item.municipality)} · ${esc(item.name)}</b><hr>${props}`)}});const key=item.municipality+' · '+item.name;overlays[key]=layer;all.push({key,layer,item});const row=document.createElement('label');row.className='layer';row.dataset.municipality=item.municipality;row.innerHTML=`<input type="checkbox"><span>${esc(key)}<small>${esc(item.features)} elementos · ${esc(item.status)} · ${esc(item.retrieved_at||'fecha no disponible')}</small></span>`;row.querySelector('input').addEventListener('change',e=>e.target.checked?layer.addTo(map):map.removeLayer(layer));box.appendChild(row);count+=1}catch(e){console.warn('Capa no cargada',item,e)}}
+ document.getElementById('dataState').textContent=count?`${count} capas locales cargadas · manifiesto ${manifest.created_at||'sin fecha'}`:'No hay capas descargadas. Ejecuta el extractor GIS para poblarlas.';if(typeof updateOpsDashboard==='function')updateOpsDashboard();}
+async function loadResources(){try{const gj=await (await fetch('data/places.geojson')).json();if(!gj.features?.length)return;const layer=L.geoJSON(gj,{pointToLayer:(f,ll)=>L.circleMarker(ll,{radius:7,color:'#398dd0',fillColor:'#398dd0',fillOpacity:.9}),onEachFeature:(f,l)=>{const p=f.properties||{};l.bindPopup(`<b>${esc(p.name)}</b><br>${esc(p.category)} · ${esc(p.municipality)}<br>Estado: ${esc(p.verification||'pendiente')}<br>${esc(p.address||'')}</br>${p.source_url?`<a target="_blank" rel="noopener" href="${esc(p.source_url)}">Fuente</a>`:''}`)}}).addTo(map);document.getElementById('resources').textContent=`${gj.features.length} recursos importados. Los pendientes se muestran diferenciados.`}catch{}}
+document.getElementById('fit').onclick=()=>map.fitBounds([[5.95,-75.80],[6.35,-75.35]]);
+document.getElementById('locate').onclick=()=>{if(!navigator.geolocation){alert('Este navegador no permite geolocalización.');return;}navigator.geolocation.getCurrentPosition(pos=>{const ll=[pos.coords.latitude,pos.coords.longitude];L.circleMarker(ll,{radius:8,color:'#fff',weight:2,fillColor:'#2d9bc2',fillOpacity:1}).addTo(map).bindPopup('Ubicación actual de este dispositivo').openPopup();map.setView(ll,16);},()=>alert('No se pudo obtener la ubicación. Revisa los permisos del navegador.'),{enableHighAccuracy:true,timeout:10000});};
+document.getElementById('municipalityFilter').addEventListener('change',e=>{const value=e.target.value;document.querySelectorAll('#layers .layer').forEach(row=>{row.style.display=!value||row.dataset.municipality===value?'flex':'none';});});document.getElementById('reload').onclick=()=>location.reload();document.getElementById('find').onclick=()=>{const q=document.getElementById('search').value.toLowerCase();let found=all.find(x=>x.key.toLowerCase().includes(q));if(found){map.fitBounds(found.layer.getBounds());found.layer.openPopup?.()}else alert('No se encontró una capa con ese nombre. Primero ejecuta la extracción para disponer de capas locales.');};document.getElementById('export').onclick=()=>{const fs=all.filter(x=>map.hasLayer(x.layer)).flatMap(x=>x.layer.toGeoJSON().features);const blob=new Blob([JSON.stringify({type:'FeatureCollection',features:fs},null,2)],{type:'application/geo+json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='prepper-map-visible.geojson';a.click();URL.revokeObjectURL(a.href)};
+async function loadLive(){const host=document.getElementById('liveLayers');try{const cfg=await (await fetch('live_layers.json')).json();host.innerHTML='';for(const s of cfg.layers){const row=document.createElement('label');row.className='layer';const title=document.createElement('span');title.innerHTML=`${esc(s.municipality)}<small>${esc(s.scope_note||'Fuente oficial')}</small>`;const cb=document.createElement('input');cb.type='checkbox';cb.checked=false;row.append(cb,title);host.append(row);let layer=null;cb.addEventListener('change',()=>{if(cb.checked){if(!navigator.onLine){cb.checked=false;alert('Esta capa requiere internet. Descarga la capa para usarla offline.');return;}if(!window.L.esri){cb.checked=false;alert('No se pudo cargar Esri Leaflet.');return;}if(!layer){layer=L.esri.dynamicMapLayer({url:s.service,layers:s.layers,opacity:.52,useCors:true});layer.on('error',()=>{host.querySelector('small')?.append(' · error de servicio');});}layer.addTo(map);}else if(layer)map.removeLayer(layer);});host.append(row);}}catch(e){host.textContent='No fue posible cargar el catálogo de servicios.';}}
+function net(){document.getElementById('net').textContent=navigator.onLine?'EN LÍNEA · fuentes remotas disponibles':'OFFLINE · solo datos descargados';}window.addEventListener('online',net);window.addEventListener('offline',net);net();if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(console.warn);loadLocal();loadResources();loadLive();
+
+const importedRouteLayers=[];const importedRouteFeatures=[];let osmTrailLayer=null;
+function xmlText(node,tag){return Array.from(node.getElementsByTagName(tag));}
+function gpxToGeoJSON(doc){
+ const features=[];
+ for(const trk of xmlText(doc,'trk')){const coords=[];for(const seg of xmlText(trk,'trkseg')){const pts=xmlText(seg,'trkpt');const line=pts.map(p=>[Number(p.getAttribute('lon')),Number(p.getAttribute('lat'))]).filter(p=>Number.isFinite(p[0])&&Number.isFinite(p[1]));if(line.length>1)features.push({type:'Feature',geometry:{type:'LineString',coordinates:line},properties:{name:xmlText(trk,'name')[0]?.textContent||'Track GPX',route_source:'user_import',verification:'not_field_verified'}});}}
+ for(const rte of xmlText(doc,'rte')){const line=xmlText(rte,'rtept').map(p=>[Number(p.getAttribute('lon')),Number(p.getAttribute('lat'))]).filter(p=>Number.isFinite(p[0])&&Number.isFinite(p[1]));if(line.length>1)features.push({type:'Feature',geometry:{type:'LineString',coordinates:line},properties:{name:xmlText(rte,'name')[0]?.textContent||'Route GPX',route_source:'user_import',verification:'not_field_verified'}});}
+ for(const wpt of xmlText(doc,'wpt')){const lon=Number(wpt.getAttribute('lon')),lat=Number(wpt.getAttribute('lat'));if(Number.isFinite(lon)&&Number.isFinite(lat))features.push({type:'Feature',geometry:{type:'Point',coordinates:[lon,lat]},properties:{name:xmlText(wpt,'name')[0]?.textContent||'Waypoint GPX',route_source:'user_import'}});}
+ return {type:'FeatureCollection',features};
+}
+function kmlToGeoJSON(doc){
+ const features=[];
+ for(const line of xmlText(doc,'LineString')){const raw=xmlText(line,'coordinates')[0]?.textContent||'';const coords=raw.trim().split(/\s+/).map(v=>v.split(',').slice(0,2).map(Number)).filter(p=>p.length===2&&p.every(Number.isFinite));if(coords.length>1)features.push({type:'Feature',geometry:{type:'LineString',coordinates:coords},properties:{name:'Track KML',route_source:'user_import',verification:'not_field_verified'}});}
+ for(const point of xmlText(doc,'Point')){const raw=xmlText(point,'coordinates')[0]?.textContent||'';const c=raw.trim().split(',').slice(0,2).map(Number);if(c.length===2&&c.every(Number.isFinite))features.push({type:'Feature',geometry:{type:'Point',coordinates:c},properties:{name:'Waypoint KML',route_source:'user_import'}});}
+ return {type:'FeatureCollection',features};
+}
+function addImportedRoute(data,name){
+ if(!data||data.type!=='FeatureCollection'||!Array.isArray(data.features))throw new Error('El archivo no contiene un GeoJSON válido.');
+ const layer=L.geoJSON(data,{style:()=>({color:'#b18ad7',weight:4,opacity:.9,dashArray:'6 4'}),pointToLayer:(f,ll)=>L.circleMarker(ll,{radius:5,color:'#fff',fillColor:'#b18ad7',fillOpacity:1}),onEachFeature:(f,l)=>{const p=f.properties||{};l.bindPopup(`<b>${esc(p.name||name||'Ruta importada')}</b><br>Origen: archivo local<br>Verificación: no verificada en terreno`);}}).addTo(map);
+ importedRouteLayers.push(layer);importedRouteFeatures.push(...data.features);
+ if(layer.getBounds&&layer.getBounds().isValid())map.fitBounds(layer.getBounds().pad(.12));
+ document.getElementById('routeStatus').textContent=`${importedRouteLayers.length} archivo(s) importado(s) · ${importedRouteFeatures.length} geometrías. No verificado en terreno.`;
+}
+document.getElementById('routeFile').addEventListener('change',async e=>{
+ const file=e.target.files?.[0];if(!file)return;
+ try{
+  const raw=await file.text();let data;
+  if(file.name.toLowerCase().endsWith('.geojson')||file.name.toLowerCase().endsWith('.json'))data=JSON.parse(raw);
+  else{const doc=new DOMParser().parseFromString(raw,'application/xml');if(doc.querySelector('parsererror'))throw new Error('XML/GPX/KML inválido.');data=file.name.toLowerCase().endsWith('.kml')?kmlToGeoJSON(doc):gpxToGeoJSON(doc);}
+  addImportedRoute(data,file.name);
+ }catch(err){alert('No se pudo importar: '+err.message);}
+ e.target.value='';
+});
+document.getElementById('clearRoutes').onclick=()=>{importedRouteLayers.forEach(l=>map.removeLayer(l));importedRouteLayers.length=0;importedRouteFeatures.length=0;document.getElementById('routeStatus').textContent='Tracks importados eliminados de esta sesión.';};
+document.getElementById('exportRoutes').onclick=()=>{
+ if(!importedRouteFeatures.length){alert('Primero importa un track GPS.');return;}
+ const blob=new Blob([JSON.stringify({type:'FeatureCollection',features:importedRouteFeatures},null,2)],{type:'application/geo+json'});
+ const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='prepper-map-rutas-importadas.geojson';a.click();URL.revokeObjectURL(url);
+};
+function routeQuery(){return (document.getElementById('routeSearch').value||'senderos Envigado Antioquia').trim();}
+function openRouteSearch(provider){
+ const q=encodeURIComponent(routeQuery());
+ const urls={wikiloc:'https://www.wikiloc.com/wikiloc/find.do?q='+q,komoot:'https://www.komoot.com/discover/'+q,alltrails:'https://www.alltrails.com/search?query='+q};
+ window.open(urls[provider],'_blank','noopener');
+}
+document.getElementById('searchWikiloc').onclick=()=>openRouteSearch('wikiloc');
+document.getElementById('searchKomoot').onclick=()=>openRouteSearch('komoot');
+document.getElementById('searchAllTrails').onclick=()=>openRouteSearch('alltrails');
+(async()=>{
+ try{
+  const data=await (await fetch('data/routes/osm_trails.geojson')).json();
+  if(data.features?.length){
+   osmTrailLayer=L.geoJSON(data,{style:()=>({color:'#e4a943',weight:2,opacity:.75}),onEachFeature:(f,l)=>{const p=f.properties||{};l.bindPopup(`<b>${esc(p.name||p.ref||'Camino OSM')}</b><br>Tipo: ${esc(p.highway||p.route||'sendero')}<br>Superficie: ${esc(p.surface||'no indicada')}<br>Acceso: ${esc(p.access||p.foot||'sin dato')}<br><b>No verificado en terreno · OSM</b>`);}});
+   osmTrailLayer.addTo(map);
+   document.getElementById('osmTrailStatus').textContent=`${data.features.length} elementos OSM candidatos · © OpenStreetMap contributors · ODbL · no verificados.`;
+  }
+ }catch(e){/* dataset aún no descargado */}
+})();
+
+// PREPPER MAP 0.6: route exposure audit and local field log.
+let latestRouteAudit=null;const OBS_KEY='prepper_map_field_observations_v06';
+function safeReadObs(){try{return JSON.parse(localStorage.getItem(OBS_KEY)||'[]')}catch{return []}}
+function updateOpsDashboard(){
+ const features=all.reduce((n,x)=>n+(Number(x.item.features)||x.layer.getLayers?.().length||0),0);
+ document.getElementById('statLayers').textContent=all.length;document.getElementById('statFeatures').textContent=features;
+ document.getElementById('statRoutes').textContent=importedRouteFeatures.filter(f=>['LineString','MultiLineString'].includes(f.geometry?.type)).length;
+ const obs=safeReadObs();document.getElementById('statReports').textContent=obs.length;
+ const old=all.filter(x=>{const d=Date.parse(x.item.retrieved_at||'');return !Number.isFinite(d)||(Date.now()-d)>180*86400000}).length;
+ document.getElementById('dataHealth').innerHTML=all.length?`<span class="${old?'warn':'good'}">${old?old+' capa(s) sin fecha o con más de 180 días':'Capas locales con fecha reciente registrada'}</span>. ${all.length} capa(s) locales; ${features} elementos declarados.`:'<span class="warn">Sin capas GIS descargadas localmente.</span> Las fuentes remotas requieren conexión; no hay análisis local de amenazas offline.';
+ document.getElementById('obsStatus').textContent=obs.length?`${obs.length} observación(es) guardadas localmente en este dispositivo.`:'Sin observaciones locales.';
+}
+function haversine(a,b){const R=6371008.8,rad=x=>x*Math.PI/180,dLat=rad(b[1]-a[1]),dLon=rad(b[0]-a[0]),la=rad(a[1]),lb=rad(b[1]),h=Math.sin(dLat/2)**2+Math.cos(la)*Math.cos(lb)*Math.sin(dLon/2)**2;return 2*R*Math.asin(Math.sqrt(h));}
+function pointInRing(pt,ring){let inside=false;for(let i=0,j=ring.length-1;i<ring.length;j=i++){const xi=ring[i][0],yi=ring[i][1],xj=ring[j][0],yj=ring[j][1],hit=((yi>pt[1])!==(yj>pt[1]))&&(pt[0]<(xj-xi)*(pt[1]-yi)/(yj-yi+Number.EPSILON)+xi);if(hit)inside=!inside;}return inside;}
+function inPolygon(pt,c){if(!c?.length||!pointInRing(pt,c[0]))return false;for(let i=1;i<c.length;i++)if(pointInRing(pt,c[i]))return false;return true;}
+function inGeometry(pt,g){if(!g)return false;if(g.type==='Polygon')return inPolygon(pt,g.coordinates);if(g.type==='MultiPolygon')return g.coordinates.some(p=>inPolygon(pt,p));return false;}
+function flattenLine(g){return g.type==='LineString'?[g.coordinates]:g.type==='MultiLineString'?g.coordinates:[];}
+function sampleLine(c,step=50){const out=[];for(let i=1;i<c.length;i++){const a=c[i-1],b=c[i],n=Math.max(1,Math.ceil(haversine(a,b)/step));for(let k=0;k<n;k++){const t=k/n;out.push([a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t]);}}if(c.length)out.push(c[c.length-1]);return out;}
+function riskCategory(theme){const t=(theme||'').toLowerCase();if(t.includes('flood')||t.includes('inund'))return 'inundación';if(t.includes('landslide')||t.includes('mass')||t.includes('movement'))return 'movimiento en masa';if(t.includes('flash'))return 'avenida torrencial';return null;}
+function evaluateImportedRoutes(){
+ const routes=importedRouteFeatures.filter(f=>f.geometry&&['LineString','MultiLineString'].includes(f.geometry.type));if(!routes.length)throw Error('No hay rutas lineales importadas.');
+ const hazards=all.filter(x=>riskCategory(x.item.theme)&&map.hasLayer(x.layer));if(!hazards.length)throw Error('Activa una capa local descargada de inundación o movimiento en masa.');
+ const report={created_at:new Date().toISOString(),method:'Muestreo de geometría aproximadamente cada 50 m contra polígonos de amenaza locales activos.',warning:'Evaluación preliminar de exposición cartográfica. No certifica seguridad, transitabilidad ni condiciones actuales.',routes:[]};
+ for(const route of routes){const lines=flattenLine(route.geometry),pts=lines.flatMap(c=>sampleLine(c)),distance=lines.reduce((sum,c)=>sum+c.slice(1).reduce((d,p,i)=>d+haversine(c[i],p),0),0),exposures=[];
+  for(const layer of hazards){let hits=0;const fs=layer.layer.toGeoJSON().features||[];for(const pt of pts)if(fs.some(f=>inGeometry(pt,f.geometry)))hits++;if(hits)exposures.push({layer:layer.key,category:riskCategory(layer.item.theme),sample_hits:hits,sample_total:pts.length,approx_exposure_percent:Math.round(hits/Math.max(1,pts.length)*1000)/10});}
+  report.routes.push({name:route.properties?.name||'Ruta importada',distance_km:Math.round(distance/100)/10,samples:pts.length,exposures,interpretation:exposures.length?'Coincidencia espacial con al menos una capa de amenaza activa.':'Sin coincidencias en las capas activas; esto NO significa que la ruta sea segura.'});
+ }
+ latestRouteAudit=report;document.getElementById('auditResult').innerHTML=report.routes.map(r=>`<div style="border-top:1px solid #2a3d4c;padding:7px 0"><b>${esc(r.name)}</b><br>${r.distance_km} km · ${r.samples} muestras<br>${r.exposures.length?'<span class="bad">Exposición detectada:</span> '+r.exposures.map(e=>`${esc(e.category)} (${e.approx_exposure_percent}% muestras; ${esc(e.layer)})`).join('; '):'<span class="warn">Sin coincidencia en capas activas.</span>'}<br><small>${esc(r.interpretation)}</small></div>`).join('')+'<p class="foot">Puede omitir polígonos pequeños o amenazas no cartografiadas. No es un algoritmo de selección de rutas seguras.</p>';return report;
+}
+document.getElementById('auditRoute').onclick=()=>{try{evaluateImportedRoutes()}catch(e){document.getElementById('auditResult').textContent=e.message;}};
+document.getElementById('exportAudit').onclick=()=>{if(!latestRouteAudit){alert('Primero ejecuta una evaluación.');return;}const b=new Blob([JSON.stringify(latestRouteAudit,null,2)],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='prepper-map-evaluacion-rutas.json';a.click();URL.revokeObjectURL(u);};
+document.getElementById('saveObservation').onclick=()=>{const place=document.getElementById('obsPlace').value.trim(),note=document.getElementById('obsNote').value.trim();if(!place||!note){alert('Completa lugar/referencia y descripción.');return;}const row={id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),created_at:new Date().toISOString(),type:document.getElementById('obsType').value,place,status:document.getElementById('obsStatus').value,note,source:'registro_local_usuario',verification:document.getElementById('obsStatus').value==='verificado'?'declarado_verificado_por_usuario':'pendiente'};const rows=safeReadObs();rows.push(row);try{localStorage.setItem(OBS_KEY,JSON.stringify(rows));document.getElementById('obsPlace').value='';document.getElementById('obsNote').value='';updateOpsDashboard();}catch(e){alert('No se pudo guardar: almacenamiento local lleno o deshabilitado.');}};
+document.getElementById('clearObservations').onclick=()=>{if(!confirm('¿Borrar permanentemente todas las observaciones guardadas en este navegador? Exporta antes si necesitas conservarlas.'))return;localStorage.removeItem(OBS_KEY);updateOpsDashboard();};
+document.getElementById('exportObservations').onclick=()=>{const rows=safeReadObs();if(!rows.length){alert('No hay observaciones para exportar.');return;}const b=new Blob([JSON.stringify({exported_at:new Date().toISOString(),privacy:'Almacenado solo en el navegador hasta exportación manual.',observations:rows},null,2)],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='prepper-map-observaciones-campo.json';a.click();URL.revokeObjectURL(u);};
+const oldLoadLocal=loadLocal;loadLocal=async()=>{await oldLoadLocal();updateOpsDashboard();};
+const oldAddRoute=addImportedRoute;addImportedRoute=(data,name)=>{oldAddRoute(data,name);updateOpsDashboard();};
+updateOpsDashboard();
+
+// Biblioteca GeoJSON persistente: IndexedDB funciona en navegadores modernos y WebView de Tauri.
+const OFFLINE_DB='prepper-map-local-v1',OFFLINE_STORE='layers';
+let offlineDb=null,offlineOverlays=new Map();
+function openOfflineDb(){return new Promise((resolve,reject)=>{if(!('indexedDB' in window)){reject(Error('IndexedDB no está disponible en este dispositivo.'));return;}const req=indexedDB.open(OFFLINE_DB,1);req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains(OFFLINE_STORE))db.createObjectStore(OFFLINE_STORE,{keyPath:'id'});};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error||Error('No se pudo abrir la biblioteca local.'));});}
+function offlineTx(mode='readonly'){return offlineDb.transaction(OFFLINE_STORE,mode).objectStore(OFFLINE_STORE);}
+function offlineGetAll(){return new Promise((resolve,reject)=>{const r=offlineTx().getAll();r.onsuccess=()=>resolve(r.result||[]);r.onerror=()=>reject(r.error);});}
+function offlinePut(row){return new Promise((resolve,reject)=>{const r=offlineTx('readwrite').put(row);r.onsuccess=()=>resolve();r.onerror=()=>reject(r.error);});}
+function offlineDelete(id){return new Promise((resolve,reject)=>{const r=offlineTx('readwrite').delete(id);r.onsuccess=()=>resolve();r.onerror=()=>reject(r.error);});}
+function validateOfflineGeoJSON(data){if(!data||data.type!=='FeatureCollection'||!Array.isArray(data.features))throw Error('El archivo debe ser un GeoJSON FeatureCollection con arreglo features.');if(data.features.length>250000)throw Error('La capa supera el límite de 250.000 elementos. Divídela en archivos más pequeños.');for(const [i,f] of data.features.entries()){if(!f||f.type!=='Feature'||!f.geometry||!['Point','MultiPoint','LineString','MultiLineString','Polygon','MultiPolygon','GeometryCollection'].includes(f.geometry.type))throw Error(`Geometría inválida en el elemento ${i+1}.`);}return data;}
+function renderOfflineLayer(row){if(offlineOverlays.has(row.id))return;const color='#b68ee8';const layer=L.geoJSON(row.geojson,{style:()=>({color,weight:1.5,fillColor:color,fillOpacity:.18}),pointToLayer:(f,ll)=>L.circleMarker(ll,{radius:5,color,fillColor:color,fillOpacity:.85}),onEachFeature:(f,l)=>{const props=Object.entries(f.properties||{}).filter(([k,v])=>v!==null&&typeof v!=='object').slice(0,10).map(([k,v])=>`<div><b>${esc(k)}</b>: ${esc(v)}</div>`).join('');l.bindPopup(`<b>${esc(row.name)}</b><hr>${props}`);}});offlineOverlays.set(row.id,layer);layer.addTo(map);}
+async function refreshOfflineLibrary(){const host=document.getElementById('offlineLayerList');try{const rows=await offlineGetAll();host.innerHTML='';if(!rows.length){host.textContent='No hay capas personales importadas.';return;}for(const row of rows){const item=document.createElement('div');item.className='layer';const check=document.createElement('input');check.type='checkbox';check.checked=true;check.addEventListener('change',()=>check.checked?offlineOverlays.get(row.id)?.addTo(map):map.removeLayer(offlineOverlays.get(row.id)));const label=document.createElement('span');label.textContent=`${row.name} · ${row.count} elementos`;const del=document.createElement('button');del.textContent='Eliminar';del.addEventListener('click',async()=>{if(!confirm(`¿Eliminar la capa local “${row.name}”?`))return;await offlineDelete(row.id);const layer=offlineOverlays.get(row.id);if(layer)map.removeLayer(layer);offlineOverlays.delete(row.id);await refreshOfflineLibrary();});item.append(check,label,del);host.append(item);renderOfflineLayer(row);}document.getElementById('offlineLayerStatus').textContent=`${rows.length} capa(s) guardadas en este dispositivo.`;}catch(e){host.textContent='No fue posible leer la biblioteca local.';document.getElementById('offlineLayerStatus').textContent=e.message;}}
+document.getElementById('offlineGeoFile').addEventListener('change',async ev=>{const file=ev.target.files?.[0];if(!file)return;try{const geojson=validateOfflineGeoJSON(JSON.parse(await file.text()));const row={id:crypto.randomUUID?crypto.randomUUID():`${Date.now()}-${Math.random().toString(16).slice(2)}`,name:file.name.slice(0,120),count:geojson.features.length,imported_at:new Date().toISOString(),geojson};await offlinePut(row);await refreshOfflineLibrary();document.getElementById('offlineLayerStatus').textContent=`Importada y guardada: ${row.name}. Disponible sin conexión en este dispositivo.`;}catch(e){alert('No se pudo importar la capa: '+e.message);}finally{ev.target.value='';}});
+document.getElementById('exportOfflineLayers').onclick=async()=>{try{const rows=await offlineGetAll();if(!rows.length){alert('La biblioteca está vacía.');return;}const payload={type:'PREPPER_MAP_OFFLINE_LIBRARY',version:1,exported_at:new Date().toISOString(),layers:rows};const blob=new Blob([JSON.stringify(payload)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='prepper-map-biblioteca-offline.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(e){alert(e.message);}};
+document.getElementById('clearOfflineLayers').onclick=async()=>{if(!confirm('¿Borrar todas las capas de la biblioteca offline de este dispositivo?'))return;try{for(const row of await offlineGetAll())await offlineDelete(row.id);for(const layer of offlineOverlays.values())map.removeLayer(layer);offlineOverlays.clear();await refreshOfflineLibrary();}catch(e){alert(e.message);}};
+(async()=>{try{offlineDb=await openOfflineDb();await refreshOfflineLibrary();}catch(e){document.getElementById('offlineLayerStatus').textContent=e.message;}})();
+
+// Terrain products generated by the optional raster workflow.
+let slopeOverlay=null, elevationProfile=null;
+document.getElementById('slopeFile').addEventListener('change',async ev=>{
+ const file=ev.target.files?.[0];if(!file)return;
+ try{const data=JSON.parse(await file.text());if(data.type!=='FeatureCollection')throw Error('Se requiere un GeoJSON FeatureCollection.');
+  if(slopeOverlay)map.removeLayer(slopeOverlay);
+  const palette={'0-5%':'#4cae74','5-15%':'#d1c85c','15-30%':'#e8a34c','30-45%':'#dc7048','>45%':'#b94f59'};
+  slopeOverlay=L.geoJSON(data,{style:f=>({color:palette[f.properties?.slope_class]||'#8f9da8',weight:.5,fillColor:palette[f.properties?.slope_class]||'#8f9da8',fillOpacity:.42}),onEachFeature:(f,l)=>l.bindPopup(`<b>Pendiente: ${esc(f.properties?.slope_class||'Sin clase')}</b><br>Derivada de DEM; no verificada en campo`)}).addTo(map);
+  if(slopeOverlay.getBounds().isValid())map.fitBounds(slopeOverlay.getBounds());
+  document.getElementById('terrainSummary').textContent=`Capa de pendientes cargada: ${data.features.length} polígonos. Simbología por clase de pendiente.`;
+ }catch(e){alert('No se pudo cargar la capa: '+e.message);}
+});
+function drawElevationProfile(profile){
+ const canvas=document.getElementById('elevationChart'),ctx=canvas.getContext('2d'),pts=(profile.samples||[]).filter(x=>Number.isFinite(x.elevation_m));
+ if(pts.length<2){canvas.style.display='none';return;}
+ canvas.style.display='block';const w=canvas.width,h=canvas.height,pad=28;ctx.clearRect(0,0,w,h);
+ const min=Math.min(...pts.map(x=>x.elevation_m)),max=Math.max(...pts.map(x=>x.elevation_m)),span=Math.max(1,max-min);
+ ctx.strokeStyle='#718493';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(pad,pad);ctx.lineTo(pad,h-pad);ctx.lineTo(w-pad,h-pad);ctx.stroke();
+ ctx.strokeStyle='#65b7e8';ctx.lineWidth=2;ctx.beginPath();
+ pts.forEach((x,i)=>{const xx=pad+(w-2*pad)*i/(pts.length-1),yy=h-pad-(h-2*pad)*(x.elevation_m-min)/span;i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy);});ctx.stroke();
+ ctx.fillStyle='#dce8ef';ctx.font='12px system-ui';ctx.fillText(`${Math.round(max)} m`,4,16);ctx.fillText(`${Math.round(min)} m`,4,h-5);
+}
+document.getElementById('profileFile').addEventListener('change',async ev=>{
+ const file=ev.target.files?.[0];if(!file)return;
+ try{const data=JSON.parse(await file.text()),m=data.summary||{};if(!Array.isArray(data.samples))throw Error('El JSON no contiene muestras.');
+  elevationProfile=data;const fmt=v=>v==null?'—':`${v} m`;
+  document.getElementById('terrainSummary').innerHTML=`<b>Perfil altimétrico cargado</b><br>Elevación: ${fmt(m.min_elevation_m)} a ${fmt(m.max_elevation_m)}<br>Ascenso estimado: ${fmt(m.estimated_ascent_m)} · Descenso: ${fmt(m.estimated_descent_m)}<br>Pendiente máxima entre muestras: ${m.max_absolute_grade_percent==null?'—':m.max_absolute_grade_percent+'%'}<br><small>${esc(data.warning||'Perfil aproximado; no valida seguridad ni transitabilidad.')}</small>`;
+  drawElevationProfile(data);
+ }catch(e){alert('No se pudo cargar el perfil: '+e.message);}
+});
+
+// Descarga explícita de teselas offline para PWA. No descarga mapas de servidores externos.
+let offlineDownloadStop=false;
+const offlineProgress=document.getElementById('offlineProgress');
+const offlineProgressStatus=document.getElementById('offlineProgressStatus');
+async function tileIndex(){const response=await fetch('offline-tiles/tile-index.json');if(!response.ok)throw Error('No existe índice de teselas. Genera el paquete desde MBTiles.');const data=await response.json();if(!Array.isArray(data.tiles)||!data.tiles.length)throw Error('Índice de teselas vacío.');if(data.tiles.length>30000)throw Error('Más de 30.000 teselas: divide el paquete para evitar agotar el almacenamiento del navegador.');if(data.tiles.some(x=>typeof x!=='string'||!/^\d+\/\d+\/\d+\.(png|jpg|webp)$/.test(x)))throw Error('Índice de teselas inválido.');return data.tiles;}
+async function offlineCacheReport(){try{const paths=await tileIndex();const cache=await caches.open('prepper-map-pro-1.1-offline-tiles');let found=0;for(const path of paths){if(await cache.match('offline-tiles/'+path))found++;}offlineProgress.value=100*found/paths.length;offlineProgressStatus.textContent=`${found} de ${paths.length} teselas almacenadas en este dispositivo (${Math.round(100*found/paths.length)}%).`;}catch(e){offlineProgressStatus.textContent=e.message;}}
+document.getElementById('prepareOfflineTiles').onclick=async()=>{offlineDownloadStop=false;const btn=document.getElementById('prepareOfflineTiles');btn.disabled=true;try{if(!('caches' in window))throw Error('Este dispositivo no admite Cache Storage.');const paths=await tileIndex();const cache=await caches.open('prepper-map-pro-1.1-offline-tiles');let ok=0,failed=0;for(let i=0;i<paths.length;i++){if(offlineDownloadStop)break;const url='offline-tiles/'+paths[i];if(await cache.match(url)){ok++;}else{try{const r=await fetch(url);if(!r.ok)throw Error('HTTP '+r.status);await cache.put(url,r);ok++;}catch(e){failed++;}}offlineProgress.value=(i+1)/paths.length*100;if(i%10===0||i===paths.length-1)offlineProgressStatus.textContent=`Procesadas ${i+1}/${paths.length} · guardadas ${ok} · errores ${failed}.`;}offlineProgressStatus.textContent+=offlineDownloadStop?' Descarga detenida; puedes reanudarla.':' Finalizado. Activa modo avión y comprueba la cobertura.';}catch(e){offlineProgressStatus.textContent='No se pudo preparar el paquete: '+e.message;}finally{btn.disabled=false;}};
+document.getElementById('stopOfflineTiles').onclick=()=>{offlineDownloadStop=true;};
+document.getElementById('checkOfflineTiles').onclick=offlineCacheReport;
+// Auditoría generada por quality_report.py. No inventar porcentajes si faltan datos.
+let qualityReport=null;
+async function loadQuality(){const host=document.getElementById('qualitySummary');try{const r=await fetch('data/quality-report.json');if(!r.ok)throw Error('Sin informe generado. Ejecuta backend/scripts/quality_report.py.');const q=await r.json();qualityReport=q;const s=q.summary||{};const byMunicipality={};for(const item of q.items||[]){const name=item.municipality||'Sin municipio';if(!byMunicipality[name])byMunicipality[name]={catalog:0,downloaded:0};byMunicipality[name].catalog++;if(item.status==='downloaded')byMunicipality[name].downloaded++;}const breakdown=Object.entries(byMunicipality).map(([name,x])=>`<div>${esc(name)}: ${x.downloaded}/${x.catalog} capas locales</div>`).join('');host.innerHTML=`<b>${Number(s.downloaded)||0} capas descargadas de ${Number(s.catalog_entries)||0} registradas</b><br>${Number(s.consistent)||0} consistentes · ${Number(s.errors)||0} errores · ${Number(s.issues)||0} incidencias<br><div style="margin:7px 0">${breakdown}</div>Informe: ${esc(q.generated_at||'sin fecha')}<br><small>La consistencia técnica no implica cobertura suficiente ni datos vigentes.</small>`;}catch(e){host.textContent=e.message;}};
+document.getElementById('refreshQuality').onclick=loadQuality;
+document.getElementById('exportQuality').onclick=()=>{if(!qualityReport){alert('No hay informe para exportar.');return;}const blob=new Blob([JSON.stringify(qualityReport,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='prepper-map-auditoria-datos.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);};
+loadQuality();
+
+</script><script src="ops-center.js"></script><script src="resource-registry.js"></script><script src="autonomy.js"></script><script src="zone-coverage.js"></script><script src="mutual-aid.js"></script><script src="situation-board.js"></script><script src="scenario-lab.js"></script><script src="sync-client.js"></script><script src="sync-panel.js"></script><script src="network-panel.js"></script></body></html>

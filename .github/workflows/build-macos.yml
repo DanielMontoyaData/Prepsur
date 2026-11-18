@@ -1,0 +1,28 @@
+name: Build macOS app
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+jobs:
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install dependencies
+        run: npm install
+      - name: Prepare frontend assets
+        run: npm run prepare:app
+      - name: Build DMG
+        run: npm run build:macos
+      - uses: actions/upload-artifact@v4
+        with:
+          name: prepper-map-macos
+          path: src-tauri/target/release/bundle/dmg/*.dmg
+          if-no-files-found: error

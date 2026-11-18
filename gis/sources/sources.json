@@ -1,0 +1,326 @@
+{
+  "project": "PREPPER MAP PRO",
+  "version": "1.8.0",
+  "exchange_crs": "EPSG:4326",
+  "coverage": [
+    "Envigado",
+    "Itagüí",
+    "Sabaneta",
+    "La Estrella",
+    "Caldas",
+    "Medellín-sur"
+  ],
+  "municipal_context": "Sur del Valle de Aburrá; la capa Medellín se limita al distrito.",
+  "sources": [
+    {
+      "id": "envigado_pot",
+      "municipality": "Envigado",
+      "authority": "Alcaldía de Envigado / Planeación; servicio publicado por Área Metropolitana",
+      "service": "https://portalidem.metropol.gov.co/server/rest/services/POT_Envigado/MapServer",
+      "service_type": "ArcGIS MapServer",
+      "source_crs": "EPSG:9377",
+      "license_status": "Atribución municipal indicada por el servicio; revisar condiciones de reutilización antes de redistribuir",
+      "scope_note": "Cartografía POT municipal; no interpretar como alerta en tiempo real.",
+      "layers": [
+        {
+          "id": 5,
+          "name": "Riesgos de Inundación",
+          "theme": "flood_risk",
+          "geometry": "polygon"
+        },
+        {
+          "id": 6,
+          "name": "Riesgos Movimientos en Masa",
+          "theme": "landslide_risk",
+          "geometry": "polygon"
+        },
+        {
+          "id": 2,
+          "name": "Equipamientos Urbanos",
+          "theme": "facilities",
+          "geometry": "polygon"
+        },
+        {
+          "id": 7,
+          "name": "Suelo de Protección",
+          "theme": "protected_land",
+          "geometry": "polygon"
+        }
+      ]
+    },
+    {
+      "id": "itagui_pot",
+      "municipality": "Itagüí",
+      "authority": "Alcaldía de Itagüí / Planeación; servicio publicado por Área Metropolitana",
+      "service": "https://portalidem.metropol.gov.co/server/rest/services/POT_Itagui/MapServer",
+      "service_type": "ArcGIS MapServer",
+      "source_crs": "EPSG:9377",
+      "license_status": "Atribución municipal indicada por el servicio; revisar condiciones de reutilización antes de redistribuir",
+      "scope_note": "Cartografía POT municipal; no interpretar como alerta en tiempo real.",
+      "layers": [
+        {
+          "id": 7,
+          "name": "Riesgos de Movimiento en Masa",
+          "theme": "landslide_risk",
+          "geometry": "polygon"
+        },
+        {
+          "id": 8,
+          "name": "Riesgos de Inundación",
+          "theme": "flood_risk",
+          "geometry": "polygon"
+        },
+        {
+          "id": 9,
+          "name": "Equipamientos",
+          "theme": "facilities",
+          "geometry": "polygon"
+        }
+      ]
+    },
+    {
+      "id": "sabaneta_pot",
+      "municipality": "Sabaneta",
+      "authority": "Alcaldía de Sabaneta / Planeación; servicio publicado por Área Metropolitana",
+      "service": "https://portalidem.metropol.gov.co/server/rest/services/POT_Sabaneta/MapServer",
+      "service_type": "ArcGIS MapServer",
+      "source_crs": "EPSG:9377",
+      "license_status": "Atribución municipal indicada por el servicio; revisar condiciones de reutilización antes de redistribuir",
+      "scope_note": "Cartografía POT municipal; no interpretar como alerta en tiempo real.",
+      "layers": [
+        {
+          "id": 5,
+          "name": "Riesgos (capa combinada)",
+          "theme": "mixed_hazard",
+          "geometry": "polygon",
+          "note": "La capa POT se publica combinada; no separar inundación y movimiento en masa sin revisar atributos y leyenda."
+        },
+        {
+          "id": 8,
+          "name": "Equipamientos",
+          "theme": "facilities",
+          "geometry": "polygon"
+        },
+        {
+          "id": 7,
+          "name": "Suelos de Protección",
+          "theme": "protected_land",
+          "geometry": "polygon"
+        }
+      ]
+    },
+    {
+      "id": "la_estrella_pot",
+      "municipality": "La Estrella",
+      "authority": "Alcaldía de La Estrella / Planeación; servicio publicado por Área Metropolitana",
+      "service": "https://portalidem.metropol.gov.co/server/rest/services/POT_La_Estrella/MapServer",
+      "service_type": "ArcGIS MapServer",
+      "source_crs": "EPSG:9377",
+      "license_status": "Atribución municipal indicada por el servicio; revisar condiciones de reutilización antes de redistribuir",
+      "scope_note": "Cartografía POT municipal; no interpretar como alerta en tiempo real.",
+      "layers": [
+        {
+          "id": 6,
+          "name": "Riesgos (capa combinada)",
+          "theme": "mixed_hazard",
+          "geometry": "polygon",
+          "note": "La capa POT se publica combinada; no separar amenazas sin revisar atributos y leyenda."
+        },
+        {
+          "id": 7,
+          "name": "Equipamientos",
+          "theme": "facilities",
+          "geometry": "polygon"
+        },
+        {
+          "id": 4,
+          "name": "Suelo de Protección de Retiro",
+          "theme": "protected_land",
+          "geometry": "polygon"
+        },
+        {
+          "id": 5,
+          "name": "Suelo de Protección de Preservación",
+          "theme": "protected_land",
+          "geometry": "polygon"
+        }
+      ]
+    },
+    {
+      "id": "caldas_pot",
+      "municipality": "Caldas",
+      "authority": "Alcaldía de Caldas / Planeación; servicio publicado por Área Metropolitana",
+      "service": "https://portalidem.metropol.gov.co/server/rest/services/POT_Caldas/MapServer",
+      "service_type": "ArcGIS MapServer",
+      "source_crs": "EPSG:9377",
+      "license_status": "Atribución municipal indicada por el servicio; revisar condiciones de reutilización antes de redistribuir",
+      "scope_note": "Cartografía POT municipal; no interpretar como alerta en tiempo real.",
+      "layers": [
+        {
+          "id": 2,
+          "name": "Riesgos (capa combinada)",
+          "theme": "mixed_hazard",
+          "geometry": "polygon",
+          "note": "La capa POT se publica combinada; no separar amenazas sin revisar atributos y leyenda."
+        },
+        {
+          "id": 1,
+          "name": "Equipamientos",
+          "theme": "facilities",
+          "geometry": "polygon"
+        },
+        {
+          "id": 3,
+          "name": "Suelo de Protección",
+          "theme": "protected_land",
+          "geometry": "polygon"
+        }
+      ]
+    },
+    {
+      "id": "medellin_dagrd",
+      "municipality": "Medellín (sur prioritario)",
+      "authority": "Alcaldía de Medellín / DAGRD",
+      "service": "https://www.medellin.gov.co/servidormapas/rest/services/ambiente_dllo_sost/VC_Gestion_Riesgo/MapServer",
+      "service_type": "ArcGIS MapServer",
+      "source_crs": "EPSG:9377",
+      "license_status": "Verificar atribución y condiciones de reutilización",
+      "scope_note": "Servicio distrital. Los datos se recortan/interpretan dentro de Medellín; no extrapolar a municipios vecinos.",
+      "layers": [
+        {
+          "id": 0,
+          "name": "Amenaza Avenidas Torrenciales",
+          "theme": "flash_flood_hazard",
+          "geometry": "polygon"
+        },
+        {
+          "id": 1,
+          "name": "Amenaza Inundaciones",
+          "theme": "flood_hazard",
+          "geometry": "polygon"
+        },
+        {
+          "id": 2,
+          "name": "Amenaza Movimiento en Masa",
+          "theme": "landslide_hazard",
+          "geometry": "polygon"
+        },
+        {
+          "id": 10,
+          "name": "Puntos de Encuentro (Medellín)",
+          "theme": "meeting_points",
+          "geometry": "point",
+          "note": "No son refugios ni puntos de Envigado; validar vigencia distrital."
+        },
+        {
+          "id": 11,
+          "name": "Rutas de Evacuación (Medellín)",
+          "theme": "evacuation_routes",
+          "geometry": "line",
+          "note": "Solo ámbito Medellín."
+        },
+        {
+          "id": 12,
+          "name": "Sensores de Nivel",
+          "theme": "water_sensors",
+          "geometry": "point"
+        },
+        {
+          "id": 13,
+          "name": "Susceptibilidad Sísmica",
+          "theme": "seismic_susceptibility",
+          "geometry": "polygon"
+        },
+        {
+          "id": 8,
+          "name": "Amenaza de incendios forestales",
+          "theme": "wildfire_hazard",
+          "geometry": "polygon",
+          "note": "Capa distrital de Medellín; no extrapolar a municipios vecinos."
+        },
+        {
+          "id": 9,
+          "name": "Amenaza tecnológica",
+          "theme": "technological_hazard",
+          "geometry": "polygon",
+          "note": "Capa distrital de Medellín; no extrapolar a municipios vecinos."
+        }
+      ]
+    }
+  ],
+  "live_sources": [
+    {
+      "id": "siata",
+      "name": "SIATA",
+      "url": "https://siata.gov.co/",
+      "role": "monitoring_portal",
+      "offline": "last_snapshot_only"
+    },
+    {
+      "id": "siammo",
+      "name": "SIAMMO",
+      "url": "https://siata.gov.co/geotecnia/siammo.html",
+      "role": "landslide_alert_monitoring",
+      "offline": "last_snapshot_only"
+    }
+  ],
+  "regional_reference": [
+    {
+      "id": "amva_municipal_catalog",
+      "name": "Catálogo de servicios POT municipales AMVA",
+      "url": "https://portalidem.metropol.gov.co/server/rest/services",
+      "role": "municipal_pot_catalog"
+    },
+    {
+      "id": "amva_soil",
+      "name": "Clasificación de suelo metropolitana",
+      "url": "https://sim.metropol.gov.co/arcgis/rest/services/App24-7/ClasificacionSuelo/MapServer",
+      "crs": "EPSG:3116",
+      "role": "municipal_context_only"
+    }
+  ],
+  "notes": [
+    "Los IDs de capas se basan en metadatos de los servicios ArcGIS públicos consultados.",
+    "Las capas de riesgos combinados conservan theme=mixed_hazard hasta inspeccionar atributos y leyenda.",
+    "El servicio DAGRD de Medellín se limita al territorio del Distrito.",
+    "La disponibilidad del servicio no equivale a verificación de campo ni vigencia operacional.",
+    "En la versión 1.2 se incorporan las capas DAGRD de amenaza de incendios forestales (ID 8) y amenaza tecnológica (ID 9), publicadas en el MapServer distrital. Su alcance se limita a Medellín.",
+    "Desde 1.4, cada descarga GeoJSON registra SHA-256, bytes, fecha de extracción y estado de completitud; la validación del paquete es independiente de la validación de campo."
+  ],
+  "route_sources": [
+    {
+      "id": "openstreetmap_trails",
+      "name": "OpenStreetMap paths and hiking relations",
+      "method": "Overpass API",
+      "license": "ODbL",
+      "status": "download_on_demand",
+      "scope": "Approximate southern Valle de Aburrá bounding box; not municipal boundary clipping"
+    },
+    {
+      "id": "wikiloc",
+      "name": "Wikiloc",
+      "method": "external_search_and_user_import",
+      "api": "no_public_api",
+      "status": "no_scraping"
+    },
+    {
+      "id": "komoot",
+      "name": "komoot",
+      "method": "share_links_and_user_import",
+      "api": "no_public_api",
+      "status": "no_scraping"
+    },
+    {
+      "id": "mapy",
+      "name": "Mapy.com",
+      "method": "external_reference",
+      "status": "no_scraping"
+    },
+    {
+      "id": "alltrails",
+      "name": "AllTrails",
+      "method": "external_reference",
+      "status": "no_scraping"
+    }
+  ]
+}

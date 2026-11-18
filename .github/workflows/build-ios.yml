@@ -1,0 +1,43 @@
+name: Build iOS app (signed)
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+jobs:
+  ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-ios
+      - name: Require Apple signing secrets
+        env:
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+          APPLE_PROVISIONING_PROFILE: ${{ secrets.APPLE_PROVISIONING_PROFILE }}
+        run: |
+          test -n "$APPLE_CERTIFICATE" || (echo "Missing APPLE_CERTIFICATE secret" && exit 1)
+          test -n "$APPLE_CERTIFICATE_PASSWORD" || (echo "Missing APPLE_CERTIFICATE_PASSWORD secret" && exit 1)
+          test -n "$APPLE_SIGNING_IDENTITY" || (echo "Missing APPLE_SIGNING_IDENTITY secret" && exit 1)
+          test -n "$APPLE_PROVISIONING_PROFILE" || (echo "Missing APPLE_PROVISIONING_PROFILE secret" && exit 1)
+      - name: Install dependencies
+        run: npm install
+      - name: Prepare frontend assets
+        run: npm run prepare:app
+      - name: Initialize iOS project
+        run: npm run ios:init
+      - name: Build signed iOS package
+        run: npm run build:ios
+      - uses: actions/upload-artifact@v4
+        with:
+          name: prepper-map-ios
+          path: src-tauri/gen/apple/build/**/*.ipa
+          if-no-files-found: warn

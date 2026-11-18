@@ -1,0 +1,11 @@
+(() => {
+ const $=id=>document.getElementById(id), status=$('syncStatus'), network=$('syncNetwork'), auto=$('syncAuto');
+ const renderNetwork=()=>{if(network)network.textContent=(navigator.onLine?'Con conexión a internet':'SIN INTERNET · modo local')+' · '+(window.PrepperSync?.isAutoPushEnabled()?'envío automático activado':'envío automático desactivado')+' · '+(window.PrepperSync?.hasSession()?'sesión configurada':'sin sesión');};
+ async function refresh(){try{status.textContent=`Eventos pendientes en este dispositivo: ${await window.PrepperSync.count()}.`; }catch(e){status.textContent=e.message;}renderNetwork();}
+ $('syncConnect').onclick=async()=>{try{await window.PrepperSync.configure({baseUrl:$('syncUrl').value.trim(),tenantId:$('syncTenant').value.trim(),token:$('syncToken').value});$('syncToken').value='';window.PrepperSync.enableAutoPush(!!auto.checked);status.textContent='Sesión configurada solo en memoria. El envío automático solo se activa con tu autorización.';renderNetwork();}catch(e){status.textContent=e.message;}};
+ $('syncPush').onclick=async()=>{try{const r=await window.PrepperSync.push();status.textContent=`Envío completado: ${r.accepted} nuevos, ${r.duplicates} duplicados idempotentes.`;await refresh();}catch(e){status.textContent=e.message;await refresh();}};
+ $('syncPull').onclick=async()=>{try{const r=await window.PrepperSync.pull();const blob=new Blob([JSON.stringify(r,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='prepper-map-eventos-recibidos-revision.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1200);status.textContent=`Consulta completada: ${r.count} eventos. Archivo descargado para revisión; no se aplicaron a registros locales.`;}catch(e){status.textContent=e.message;}};
+ auto.onchange=()=>{if(!window.PrepperSync.hasSession()){auto.checked=false;status.textContent='Primero configura una sesión autorizada.';return;}window.PrepperSync.enableAutoPush(auto.checked);renderNetwork();};
+ $('syncClear').onclick=()=>{window.PrepperSync.clearSession();auto.checked=false;status.textContent='Sesión cerrada. Token eliminado de memoria y envío automático desactivado.';renderNetwork();};
+ window.addEventListener('online',refresh);window.addEventListener('offline',refresh);refresh();
+})();

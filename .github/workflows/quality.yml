@@ -1,0 +1,47 @@
+name: PREPPER MAP quality checks
+
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Validate JSON and frontend JavaScript
+        run: |
+          python - <<'PY'
+          import json, pathlib, re
+          root = pathlib.Path('.')
+          for p in root.rglob('*.json'):
+              if '.git' not in p.parts and 'node_modules' not in p.parts:
+                  json.loads(p.read_text(encoding='utf-8'))
+          html = (root/'frontend/index.html').read_text(encoding='utf-8')
+          scripts = re.findall(r'<script(?:\s[^>]*)?>([\s\S]*?)</script>', html)
+          pathlib.Path('/tmp/prepper-inline.js').write_text('\n'.join(scripts))
+          print('JSON and HTML script extraction OK')
+          PY
+          node --check /tmp/prepper-inline.js
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt -r requirements-terrain.txt
+      - name: Audit GIS inventory and release readiness
+        run: |
+          python backend/scripts/quality_report.py
+          python backend/scripts/check_release.py
+      - name: Run Python tests
+        run: python -m unittest discover -s tests -v
+      - name: Install Tauri CLI
+        run: npm install
+      - name: Prepare local map libraries
+        run: npm run sync:vendor
+      - name: Check frontend controls and JavaScript
+        run: npm run check
+      - name: Validate Tauri configuration
+        run: npm run doctor

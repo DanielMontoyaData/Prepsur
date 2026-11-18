@@ -1,0 +1,123 @@
+{
+  "version": "1.2.0",
+  "layers": [
+    {
+      "id": "envigado_pot",
+      "municipality": "Envigado",
+      "service": "https://portalidem.metropol.gov.co/server/rest/services/POT_Envigado/MapServer",
+      "layers": [
+        5,
+        6,
+        2,
+        7
+      ],
+      "themes": [
+        "flood_risk",
+        "landslide_risk",
+        "facilities",
+        "protected_land"
+      ],
+      "scope_note": "Cartografía POT municipal; no interpretar como alerta en tiempo real.",
+      "authority": "Alcaldía de Envigado / Planeación; servicio publicado por Área Metropolitana"
+    },
+    {
+      "id": "itagui_pot",
+      "municipality": "Itagüí",
+      "service": "https://portalidem.metropol.gov.co/server/rest/services/POT_Itagui/MapServer",
+      "layers": [
+        7,
+        8,
+        9
+      ],
+      "themes": [
+        "landslide_risk",
+        "flood_risk",
+        "facilities"
+      ],
+      "scope_note": "Cartografía POT municipal; no interpretar como alerta en tiempo real.",
+      "authority": "Alcaldía de Itagüí / Planeación; servicio publicado por Área Metropolitana"
+    },
+    {
+      "id": "sabaneta_pot",
+      "municipality": "Sabaneta",
+      "service": "https://portalidem.metropol.gov.co/server/rest/services/POT_Sabaneta/MapServer",
+      "layers": [
+        5,
+        8,
+        7
+      ],
+      "themes": [
+        "mixed_hazard",
+        "facilities",
+        "protected_land"
+      ],
+      "scope_note": "Cartografía POT municipal; no interpretar como alerta en tiempo real.",
+      "authority": "Alcaldía de Sabaneta / Planeación; servicio publicado por Área Metropolitana"
+    },
+    {
+      "id": "la_estrella_pot",
+      "municipality": "La Estrella",
+      "service": "https://portalidem.metropol.gov.co/server/rest/services/POT_La_Estrella/MapServer",
+      "layers": [
+        6,
+        7,
+        4,
+        5
+      ],
+      "themes": [
+        "mixed_hazard",
+        "facilities",
+        "protected_land",
+        "protected_land"
+      ],
+      "scope_note": "Cartografía POT municipal; no interpretar como alerta en tiempo real.",
+      "authority": "Alcaldía de La Estrella / Planeación; servicio publicado por Área Metropolitana"
+    },
+    {
+      "id": "caldas_pot",
+      "municipality": "Caldas",
+      "service": "https://portalidem.metropol.gov.co/server/rest/services/POT_Caldas/MapServer",
+      "layers": [
+        2,
+        1,
+        3
+      ],
+      "themes": [
+        "mixed_hazard",
+        "facilities",
+        "protected_land"
+      ],
+      "scope_note": "Cartografía POT municipal; no interpretar como alerta en tiempo real.",
+      "authority": "Alcaldía de Caldas / Planeación; servicio publicado por Área Metropolitana"
+    },
+    {
+      "id": "medellin_dagrd",
+      "municipality": "Medellín (sur prioritario)",
+      "service": "https://www.medellin.gov.co/servidormapas/rest/services/ambiente_dllo_sost/VC_Gestion_Riesgo/MapServer",
+      "layers": [
+        0,
+        1,
+        2,
+        10,
+        11,
+        12,
+        13,
+        8,
+        9
+      ],
+      "themes": [
+        "flash_flood_hazard",
+        "flood_hazard",
+        "landslide_hazard",
+        "meeting_points",
+        "evacuation_routes",
+        "water_sensors",
+        "seismic_susceptibility",
+        "wildfire_hazard",
+        "technological_hazard"
+      ],
+      "scope_note": "Servicio distrital. Los datos se recortan/interpretan dentro de Medellín; no extrapolar a municipios vecinos.",
+      "authority": "Alcaldía de Medellín / DAGRD"
+    }
+  ]
+}

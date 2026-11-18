@@ -1,0 +1,29 @@
+{
+  "note": "Datos ficticios de prueba; no representan infraestructura real. Reemplazar por inventario verificado antes de analizar un territorio.",
+  "nodes": [
+    {
+      "id": "POWER",
+      "name": "Nodo de energía de ejemplo",
+      "municipality": "Envigado",
+      "sector": "energia",
+      "criticality": "critica",
+      "capacity": 100,
+      "unit": "kW",
+      "dependencies": [],
+      "source": "EJEMPLO - no usar como dato real"
+    },
+    {
+      "id": "WATER",
+      "name": "Nodo de bombeo de ejemplo",
+      "municipality": "Envigado",
+      "sector": "agua",
+      "criticality": "critica",
+      "capacity": 25,
+      "unit": "L/s",
+      "dependencies": [
+        "POWER"
+      ],
+      "source": "EJEMPLO - no usar como dato real"
+    }
+  ]
+}

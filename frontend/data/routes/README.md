@@ -1,0 +1,1 @@
+Coloca aquí el GeoJSON de senderos generado por `python backend/scripts/download_osm_trails.py`. El visor cargará automáticamente `osm_trails.geojson` si existe. Las rutas importadas por el usuario se procesan en el navegador y no se guardan en el servidor.

@@ -1,0 +1,46 @@
+{
+  "version": "0.5.0",
+  "policy": "No scraping or bulk reuse of Wikiloc/Komoot content. Use official share pages and user-authorized GPS files. OpenStreetMap trail data is separately licensed under ODbL and requires attribution.",
+  "providers": [
+    {
+      "id": "wikiloc",
+      "name": "Wikiloc",
+      "mode": "search_link_and_user_gpx",
+      "search_url": "https://www.wikiloc.com/wikiloc/find.do?q={query}",
+      "route_url": "https://www.wikiloc.com/",
+      "notes": "No public developer API. Open route pages through Wikiloc; user can download GPX/TCX where permitted and import their own file."
+    },
+    {
+      "id": "komoot",
+      "name": "komoot",
+      "mode": "share_link_and_user_gpx",
+      "search_url": "https://www.komoot.com/discover/{query}",
+      "route_url": "https://www.komoot.com/",
+      "notes": "No public API. Supports importing/exporting individual GPS files including GPX; exports may require the starting region to be unlocked."
+    },
+    {
+      "id": "openstreetmap",
+      "name": "OpenStreetMap",
+      "mode": "open_data",
+      "search_url": "https://www.openstreetmap.org/",
+      "route_url": "https://www.openstreetmap.org/",
+      "notes": "Open trail/path data under ODbL; respect attribution, API/provider usage policies and license obligations."
+    },
+    {
+      "id": "mapy",
+      "name": "Mapy.com",
+      "mode": "external_navigation",
+      "search_url": "https://mapy.com/",
+      "route_url": "https://mapy.com/",
+      "notes": "External route planning/navigation service; use share links or user-exported tracks, not scraping."
+    },
+    {
+      "id": "alltrails",
+      "name": "AllTrails",
+      "mode": "external_reference",
+      "search_url": "https://www.alltrails.com/search?query={query}",
+      "route_url": "https://www.alltrails.com/",
+      "notes": "External trail discovery; use its own sharing/export permissions."
+    }
+  ]
+}

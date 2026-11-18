@@ -1,0 +1,16 @@
+[package]
+name = "prepper-map"
+version = "2.5.0"
+description = "PREPPER MAP — resiliencia territorial"
+authors = ["PREPPER MAP"]
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]

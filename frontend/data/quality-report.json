@@ -1,0 +1,353 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-11-17T06:18:16.775755+00:00",
+  "max_age_days": 180,
+  "summary": {
+    "catalog_entries": 26,
+    "downloaded": 0,
+    "consistent": 0,
+    "errors": 0,
+    "issues": 26
+  },
+  "items": [
+    {
+      "municipality": "Envigado",
+      "name": "Riesgos de Inundación",
+      "theme": "flood_risk",
+      "status": "not_downloaded",
+      "source_url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Envigado/MapServer/5",
+      "retrieved_at": null,
+      "license_note": "Atribución municipal indicada por el servicio; revisar condiciones de reutilización antes de redistribuir",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "Envigado",
+      "name": "Riesgos Movimientos en Masa",
+      "theme": "landslide_risk",
+      "status": "not_downloaded",
+      "source_url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Envigado/MapServer/6",
+      "retrieved_at": null,
+      "license_note": "Atribución municipal indicada por el servicio; revisar condiciones de reutilización antes de redistribuir",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "Envigado",
+      "name": "Equipamientos Urbanos",
+      "theme": "facilities",
+      "status": "not_downloaded",
+      "source_url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Envigado/MapServer/2",
+      "retrieved_at": null,
+      "license_note": "Atribución municipal indicada por el servicio; revisar condiciones de reutilización antes de redistribuir",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "Envigado",
+      "name": "Suelo de Protección",
+      "theme": "protected_land",
+      "status": "not_downloaded",
+      "source_url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Envigado/MapServer/7",
+      "retrieved_at": null,
+      "license_note": "Atribución municipal indicada por el servicio; revisar condiciones de reutilización antes de redistribuir",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "Itagüí",
+      "name": "Riesgos de Movimiento en Masa",
+      "theme": "landslide_risk",
+      "status": "not_downloaded",
+      "source_url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Itagui/MapServer/7",
+      "retrieved_at": null,
+      "license_note": "Atribución municipal indicada por el servicio; revisar condiciones de reutilización antes de redistribuir",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "Itagüí",
+      "name": "Riesgos de Inundación",
+      "theme": "flood_risk",
+      "status": "not_downloaded",
+      "source_url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Itagui/MapServer/8",
+      "retrieved_at": null,
+      "license_note": "Atribución municipal indicada por el servicio; revisar condiciones de reutilización antes de redistribuir",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "Itagüí",
+      "name": "Equipamientos",
+      "theme": "facilities",
+      "status": "not_downloaded",
+      "source_url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Itagui/MapServer/9",
+      "retrieved_at": null,
+      "license_note": "Atribución municipal indicada por el servicio; revisar condiciones de reutilización antes de redistribuir",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "Sabaneta",
+      "name": "Riesgos (capa combinada)",
+      "theme": "mixed_hazard",
+      "status": "not_downloaded",
+      "source_url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Sabaneta/MapServer/5",
+      "retrieved_at": null,
+      "license_note": "Atribución municipal indicada por el servicio; revisar condiciones de reutilización antes de redistribuir",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "Sabaneta",
+      "name": "Equipamientos",
+      "theme": "facilities",
+      "status": "not_downloaded",
+      "source_url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Sabaneta/MapServer/8",
+      "retrieved_at": null,
+      "license_note": "Atribución municipal indicada por el servicio; revisar condiciones de reutilización antes de redistribuir",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "Sabaneta",
+      "name": "Suelos de Protección",
+      "theme": "protected_land",
+      "status": "not_downloaded",
+      "source_url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Sabaneta/MapServer/7",
+      "retrieved_at": null,
+      "license_note": "Atribución municipal indicada por el servicio; revisar condiciones de reutilización antes de redistribuir",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "La Estrella",
+      "name": "Riesgos (capa combinada)",
+      "theme": "mixed_hazard",
+      "status": "not_downloaded",
+      "source_url": "https://portalidem.metropol.gov.co/server/rest/services/POT_La_Estrella/MapServer/6",
+      "retrieved_at": null,
+      "license_note": "Atribución municipal indicada por el servicio; revisar condiciones de reutilización antes de redistribuir",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "La Estrella",
+      "name": "Equipamientos",
+      "theme": "facilities",
+      "status": "not_downloaded",
+      "source_url": "https://portalidem.metropol.gov.co/server/rest/services/POT_La_Estrella/MapServer/7",
+      "retrieved_at": null,
+      "license_note": "Atribución municipal indicada por el servicio; revisar condiciones de reutilización antes de redistribuir",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "La Estrella",
+      "name": "Suelo de Protección de Retiro",
+      "theme": "protected_land",
+      "status": "not_downloaded",
+      "source_url": "https://portalidem.metropol.gov.co/server/rest/services/POT_La_Estrella/MapServer/4",
+      "retrieved_at": null,
+      "license_note": "Atribución municipal indicada por el servicio; revisar condiciones de reutilización antes de redistribuir",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "La Estrella",
+      "name": "Suelo de Protección de Preservación",
+      "theme": "protected_land",
+      "status": "not_downloaded",
+      "source_url": "https://portalidem.metropol.gov.co/server/rest/services/POT_La_Estrella/MapServer/5",
+      "retrieved_at": null,
+      "license_note": "Atribución municipal indicada por el servicio; revisar condiciones de reutilización antes de redistribuir",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "Caldas",
+      "name": "Riesgos (capa combinada)",
+      "theme": "mixed_hazard",
+      "status": "not_downloaded",
+      "source_url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Caldas/MapServer/2",
+      "retrieved_at": null,
+      "license_note": "Atribución municipal indicada por el servicio; revisar condiciones de reutilización antes de redistribuir",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "Caldas",
+      "name": "Equipamientos",
+      "theme": "facilities",
+      "status": "not_downloaded",
+      "source_url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Caldas/MapServer/1",
+      "retrieved_at": null,
+      "license_note": "Atribución municipal indicada por el servicio; revisar condiciones de reutilización antes de redistribuir",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "Caldas",
+      "name": "Suelo de Protección",
+      "theme": "protected_land",
+      "status": "not_downloaded",
+      "source_url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Caldas/MapServer/3",
+      "retrieved_at": null,
+      "license_note": "Atribución municipal indicada por el servicio; revisar condiciones de reutilización antes de redistribuir",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "Medellín (sur prioritario)",
+      "name": "Amenaza Avenidas Torrenciales",
+      "theme": "flash_flood_hazard",
+      "status": "not_downloaded",
+      "source_url": "https://www.medellin.gov.co/servidormapas/rest/services/ambiente_dllo_sost/VC_Gestion_Riesgo/MapServer/0",
+      "retrieved_at": null,
+      "license_note": "Verificar atribución y condiciones de reutilización",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "Medellín (sur prioritario)",
+      "name": "Amenaza Inundaciones",
+      "theme": "flood_hazard",
+      "status": "not_downloaded",
+      "source_url": "https://www.medellin.gov.co/servidormapas/rest/services/ambiente_dllo_sost/VC_Gestion_Riesgo/MapServer/1",
+      "retrieved_at": null,
+      "license_note": "Verificar atribución y condiciones de reutilización",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "Medellín (sur prioritario)",
+      "name": "Amenaza Movimiento en Masa",
+      "theme": "landslide_hazard",
+      "status": "not_downloaded",
+      "source_url": "https://www.medellin.gov.co/servidormapas/rest/services/ambiente_dllo_sost/VC_Gestion_Riesgo/MapServer/2",
+      "retrieved_at": null,
+      "license_note": "Verificar atribución y condiciones de reutilización",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "Medellín (sur prioritario)",
+      "name": "Puntos de Encuentro (Medellín)",
+      "theme": "meeting_points",
+      "status": "not_downloaded",
+      "source_url": "https://www.medellin.gov.co/servidormapas/rest/services/ambiente_dllo_sost/VC_Gestion_Riesgo/MapServer/10",
+      "retrieved_at": null,
+      "license_note": "Verificar atribución y condiciones de reutilización",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "Medellín (sur prioritario)",
+      "name": "Rutas de Evacuación (Medellín)",
+      "theme": "evacuation_routes",
+      "status": "not_downloaded",
+      "source_url": "https://www.medellin.gov.co/servidormapas/rest/services/ambiente_dllo_sost/VC_Gestion_Riesgo/MapServer/11",
+      "retrieved_at": null,
+      "license_note": "Verificar atribución y condiciones de reutilización",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "Medellín (sur prioritario)",
+      "name": "Sensores de Nivel",
+      "theme": "water_sensors",
+      "status": "not_downloaded",
+      "source_url": "https://www.medellin.gov.co/servidormapas/rest/services/ambiente_dllo_sost/VC_Gestion_Riesgo/MapServer/12",
+      "retrieved_at": null,
+      "license_note": "Verificar atribución y condiciones de reutilización",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "Medellín (sur prioritario)",
+      "name": "Susceptibilidad Sísmica",
+      "theme": "seismic_susceptibility",
+      "status": "not_downloaded",
+      "source_url": "https://www.medellin.gov.co/servidormapas/rest/services/ambiente_dllo_sost/VC_Gestion_Riesgo/MapServer/13",
+      "retrieved_at": null,
+      "license_note": "Verificar atribución y condiciones de reutilización",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "Medellín (sur prioritario)",
+      "name": "Amenaza de incendios forestales",
+      "theme": "wildfire_hazard",
+      "status": "not_downloaded",
+      "source_url": "https://www.medellin.gov.co/servidormapas/rest/services/ambiente_dllo_sost/VC_Gestion_Riesgo/MapServer/8",
+      "retrieved_at": null,
+      "license_note": "Verificar atribución y condiciones de reutilización",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    },
+    {
+      "municipality": "Medellín (sur prioritario)",
+      "name": "Amenaza tecnológica",
+      "theme": "technological_hazard",
+      "status": "not_downloaded",
+      "source_url": "https://www.medellin.gov.co/servidormapas/rest/services/ambiente_dllo_sost/VC_Gestion_Riesgo/MapServer/9",
+      "retrieved_at": null,
+      "license_note": "Verificar atribución y condiciones de reutilización",
+      "issues": [
+        "no_descargado"
+      ],
+      "quality": "no_disponible"
+    }
+  ],
+  "disclaimer": "Consistencia de datos, no certificación de seguridad, completitud ni actualidad de amenazas."
+}

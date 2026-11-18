@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://prepper-map.local/schemas/sync-event.schema.json",
+  "title": "PREPPER MAP Sync Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event_id", "entity_type", "entity_id", "operation", "created_at", "payload"],
+  "properties": {
+    "event_id": {"type": "string", "minLength": 8, "maxLength": 100},
+    "entity_type": {"enum": ["incident", "resource", "assignment", "mutual_aid", "situation_report", "observation"]},
+    "entity_id": {"type": "string", "minLength": 1, "maxLength": 100},
+    "operation": {"enum": ["create", "update", "delete", "status_change"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "source_device": {"type": ["string", "null"], "maxLength": 100},
+    "schema_version": {"type": "integer", "minimum": 1, "maximum": 10},
+    "payload": {"type": "object"}
+  }
+}

@@ -1,0 +1,265 @@
+{
+  "project": "PREPPER MAP PRO",
+  "version": "2.2.0",
+  "generated_at": "2026-11-17T17:43:39.908274+00:00",
+  "remote_checked": true,
+  "download_requested": false,
+  "scope": "Metadatos de servicios; no certifica vigencia temática ni precisión de campo.",
+  "summary": {
+    "sources": 6,
+    "layers": 26,
+    "reachable_services": 0,
+    "failed_services": 6,
+    "failed_layers": 0
+  },
+  "sources": [
+    {
+      "source_id": "envigado_pot",
+      "municipality": "Envigado",
+      "authority": "Alcaldía de Envigado / Planeación; servicio publicado por Área Metropolitana",
+      "service": "https://portalidem.metropol.gov.co/server/rest/services/POT_Envigado/MapServer",
+      "scope_note": "Cartografía POT municipal; no interpretar como alerta en tiempo real.",
+      "layers": [
+        {
+          "id": 5,
+          "name": "Riesgos de Inundación",
+          "theme": "flood_risk",
+          "url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Envigado/MapServer/5",
+          "status": "not_checked_remote"
+        },
+        {
+          "id": 6,
+          "name": "Riesgos Movimientos en Masa",
+          "theme": "landslide_risk",
+          "url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Envigado/MapServer/6",
+          "status": "not_checked_remote"
+        },
+        {
+          "id": 2,
+          "name": "Equipamientos Urbanos",
+          "theme": "facilities",
+          "url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Envigado/MapServer/2",
+          "status": "not_checked_remote"
+        },
+        {
+          "id": 7,
+          "name": "Suelo de Protección",
+          "theme": "protected_land",
+          "url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Envigado/MapServer/7",
+          "status": "not_checked_remote"
+        }
+      ],
+      "service_status": "failed",
+      "error": "HTTPSConnectionPool(host='portalidem.metropol.gov.co', port=443): Max retries exceeded with url: /server/rest/services/POT_Envigado/MapServer?f=pjson (Caused by NameResolutionError(\"HTTPSConnection(host='portalidem.metropol.gov.co', port=443): Failed to resolve 'portalidem.metropol.gov.co' ([Errno -3] Temporary failure in name resolution)\"))"
+    },
+    {
+      "source_id": "itagui_pot",
+      "municipality": "Itagüí",
+      "authority": "Alcaldía de Itagüí / Planeación; servicio publicado por Área Metropolitana",
+      "service": "https://portalidem.metropol.gov.co/server/rest/services/POT_Itagui/MapServer",
+      "scope_note": "Cartografía POT municipal; no interpretar como alerta en tiempo real.",
+      "layers": [
+        {
+          "id": 7,
+          "name": "Riesgos de Movimiento en Masa",
+          "theme": "landslide_risk",
+          "url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Itagui/MapServer/7",
+          "status": "not_checked_remote"
+        },
+        {
+          "id": 8,
+          "name": "Riesgos de Inundación",
+          "theme": "flood_risk",
+          "url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Itagui/MapServer/8",
+          "status": "not_checked_remote"
+        },
+        {
+          "id": 9,
+          "name": "Equipamientos",
+          "theme": "facilities",
+          "url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Itagui/MapServer/9",
+          "status": "not_checked_remote"
+        }
+      ],
+      "service_status": "failed",
+      "error": "HTTPSConnectionPool(host='portalidem.metropol.gov.co', port=443): Max retries exceeded with url: /server/rest/services/POT_Itagui/MapServer?f=pjson (Caused by NameResolutionError(\"HTTPSConnection(host='portalidem.metropol.gov.co', port=443): Failed to resolve 'portalidem.metropol.gov.co' ([Errno -3] Temporary failure in name resolution)\"))"
+    },
+    {
+      "source_id": "sabaneta_pot",
+      "municipality": "Sabaneta",
+      "authority": "Alcaldía de Sabaneta / Planeación; servicio publicado por Área Metropolitana",
+      "service": "https://portalidem.metropol.gov.co/server/rest/services/POT_Sabaneta/MapServer",
+      "scope_note": "Cartografía POT municipal; no interpretar como alerta en tiempo real.",
+      "layers": [
+        {
+          "id": 5,
+          "name": "Riesgos (capa combinada)",
+          "theme": "mixed_hazard",
+          "url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Sabaneta/MapServer/5",
+          "status": "not_checked_remote"
+        },
+        {
+          "id": 8,
+          "name": "Equipamientos",
+          "theme": "facilities",
+          "url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Sabaneta/MapServer/8",
+          "status": "not_checked_remote"
+        },
+        {
+          "id": 7,
+          "name": "Suelos de Protección",
+          "theme": "protected_land",
+          "url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Sabaneta/MapServer/7",
+          "status": "not_checked_remote"
+        }
+      ],
+      "service_status": "failed",
+      "error": "HTTPSConnectionPool(host='portalidem.metropol.gov.co', port=443): Max retries exceeded with url: /server/rest/services/POT_Sabaneta/MapServer?f=pjson (Caused by NameResolutionError(\"HTTPSConnection(host='portalidem.metropol.gov.co', port=443): Failed to resolve 'portalidem.metropol.gov.co' ([Errno -3] Temporary failure in name resolution)\"))"
+    },
+    {
+      "source_id": "la_estrella_pot",
+      "municipality": "La Estrella",
+      "authority": "Alcaldía de La Estrella / Planeación; servicio publicado por Área Metropolitana",
+      "service": "https://portalidem.metropol.gov.co/server/rest/services/POT_La_Estrella/MapServer",
+      "scope_note": "Cartografía POT municipal; no interpretar como alerta en tiempo real.",
+      "layers": [
+        {
+          "id": 6,
+          "name": "Riesgos (capa combinada)",
+          "theme": "mixed_hazard",
+          "url": "https://portalidem.metropol.gov.co/server/rest/services/POT_La_Estrella/MapServer/6",
+          "status": "not_checked_remote"
+        },
+        {
+          "id": 7,
+          "name": "Equipamientos",
+          "theme": "facilities",
+          "url": "https://portalidem.metropol.gov.co/server/rest/services/POT_La_Estrella/MapServer/7",
+          "status": "not_checked_remote"
+        },
+        {
+          "id": 4,
+          "name": "Suelo de Protección de Retiro",
+          "theme": "protected_land",
+          "url": "https://portalidem.metropol.gov.co/server/rest/services/POT_La_Estrella/MapServer/4",
+          "status": "not_checked_remote"
+        },
+        {
+          "id": 5,
+          "name": "Suelo de Protección de Preservación",
+          "theme": "protected_land",
+          "url": "https://portalidem.metropol.gov.co/server/rest/services/POT_La_Estrella/MapServer/5",
+          "status": "not_checked_remote"
+        }
+      ],
+      "service_status": "failed",
+      "error": "HTTPSConnectionPool(host='portalidem.metropol.gov.co', port=443): Max retries exceeded with url: /server/rest/services/POT_La_Estrella/MapServer?f=pjson (Caused by NameResolutionError(\"HTTPSConnection(host='portalidem.metropol.gov.co', port=443): Failed to resolve 'portalidem.metropol.gov.co' ([Errno -3] Temporary failure in name resolution)\"))"
+    },
+    {
+      "source_id": "caldas_pot",
+      "municipality": "Caldas",
+      "authority": "Alcaldía de Caldas / Planeación; servicio publicado por Área Metropolitana",
+      "service": "https://portalidem.metropol.gov.co/server/rest/services/POT_Caldas/MapServer",
+      "scope_note": "Cartografía POT municipal; no interpretar como alerta en tiempo real.",
+      "layers": [
+        {
+          "id": 2,
+          "name": "Riesgos (capa combinada)",
+          "theme": "mixed_hazard",
+          "url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Caldas/MapServer/2",
+          "status": "not_checked_remote"
+        },
+        {
+          "id": 1,
+          "name": "Equipamientos",
+          "theme": "facilities",
+          "url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Caldas/MapServer/1",
+          "status": "not_checked_remote"
+        },
+        {
+          "id": 3,
+          "name": "Suelo de Protección",
+          "theme": "protected_land",
+          "url": "https://portalidem.metropol.gov.co/server/rest/services/POT_Caldas/MapServer/3",
+          "status": "not_checked_remote"
+        }
+      ],
+      "service_status": "failed",
+      "error": "HTTPSConnectionPool(host='portalidem.metropol.gov.co', port=443): Max retries exceeded with url: /server/rest/services/POT_Caldas/MapServer?f=pjson (Caused by NameResolutionError(\"HTTPSConnection(host='portalidem.metropol.gov.co', port=443): Failed to resolve 'portalidem.metropol.gov.co' ([Errno -3] Temporary failure in name resolution)\"))"
+    },
+    {
+      "source_id": "medellin_dagrd",
+      "municipality": "Medellín (sur prioritario)",
+      "authority": "Alcaldía de Medellín / DAGRD",
+      "service": "https://www.medellin.gov.co/servidormapas/rest/services/ambiente_dllo_sost/VC_Gestion_Riesgo/MapServer",
+      "scope_note": "Servicio distrital. Los datos se recortan/interpretan dentro de Medellín; no extrapolar a municipios vecinos.",
+      "layers": [
+        {
+          "id": 0,
+          "name": "Amenaza Avenidas Torrenciales",
+          "theme": "flash_flood_hazard",
+          "url": "https://www.medellin.gov.co/servidormapas/rest/services/ambiente_dllo_sost/VC_Gestion_Riesgo/MapServer/0",
+          "status": "not_checked_remote"
+        },
+        {
+          "id": 1,
+          "name": "Amenaza Inundaciones",
+          "theme": "flood_hazard",
+          "url": "https://www.medellin.gov.co/servidormapas/rest/services/ambiente_dllo_sost/VC_Gestion_Riesgo/MapServer/1",
+          "status": "not_checked_remote"
+        },
+        {
+          "id": 2,
+          "name": "Amenaza Movimiento en Masa",
+          "theme": "landslide_hazard",
+          "url": "https://www.medellin.gov.co/servidormapas/rest/services/ambiente_dllo_sost/VC_Gestion_Riesgo/MapServer/2",
+          "status": "not_checked_remote"
+        },
+        {
+          "id": 10,
+          "name": "Puntos de Encuentro (Medellín)",
+          "theme": "meeting_points",
+          "url": "https://www.medellin.gov.co/servidormapas/rest/services/ambiente_dllo_sost/VC_Gestion_Riesgo/MapServer/10",
+          "status": "not_checked_remote"
+        },
+        {
+          "id": 11,
+          "name": "Rutas de Evacuación (Medellín)",
+          "theme": "evacuation_routes",
+          "url": "https://www.medellin.gov.co/servidormapas/rest/services/ambiente_dllo_sost/VC_Gestion_Riesgo/MapServer/11",
+          "status": "not_checked_remote"
+        },
+        {
+          "id": 12,
+          "name": "Sensores de Nivel",
+          "theme": "water_sensors",
+          "url": "https://www.medellin.gov.co/servidormapas/rest/services/ambiente_dllo_sost/VC_Gestion_Riesgo/MapServer/12",
+          "status": "not_checked_remote"
+        },
+        {
+          "id": 13,
+          "name": "Susceptibilidad Sísmica",
+          "theme": "seismic_susceptibility",
+          "url": "https://www.medellin.gov.co/servidormapas/rest/services/ambiente_dllo_sost/VC_Gestion_Riesgo/MapServer/13",
+          "status": "not_checked_remote"
+        },
+        {
+          "id": 8,
+          "name": "Amenaza de incendios forestales",
+          "theme": "wildfire_hazard",
+          "url": "https://www.medellin.gov.co/servidormapas/rest/services/ambiente_dllo_sost/VC_Gestion_Riesgo/MapServer/8",
+          "status": "not_checked_remote"
+        },
+        {
+          "id": 9,
+          "name": "Amenaza tecnológica",
+          "theme": "technological_hazard",
+          "url": "https://www.medellin.gov.co/servidormapas/rest/services/ambiente_dllo_sost/VC_Gestion_Riesgo/MapServer/9",
+          "status": "not_checked_remote"
+        }
+      ],
+      "service_status": "failed",
+      "error": "HTTPSConnectionPool(host='www.medellin.gov.co', port=443): Max retries exceeded with url: /servidormapas/rest/services/ambiente_dllo_sost/VC_Gestion_Riesgo/MapServer?f=pjson (Caused by NameResolutionError(\"HTTPSConnection(host='www.medellin.gov.co', port=443): Failed to resolve 'www.medellin.gov.co' ([Errno -3] Temporary failure in name resolution)\"))"
+    }
+  ]
+}
